@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:funsplash/model/category.dart';
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/api/unplash_api.dart';
@@ -76,10 +77,8 @@ class _CategoryPhotosListViewState extends State<CategoryPhotosListView> {
           child: GridView.count(
             padding: EdgeInsets.all(2.0),
             crossAxisCount: 1,
-//            crossAxisSpacing: 2.0,
-//            mainAxisSpacing: 2.0,
-//            childAspectRatio: 1.01,
             controller: _scrollController,
+            physics: AlwaysScrollableScrollPhysics(),
             children: List.generate(items.length, (index) {
               if (index == items.length) {
                 return new CircularProgressIndicator();
@@ -115,14 +114,19 @@ class CategoryPhotoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new Container(
+        height: 250,
         child: new GestureDetector(
             onTap: onTap,
             child: new ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(3.0)),
-              child: new FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: photo.urls.small,
-                fit: BoxFit.cover,
+              child: new Parallax.inside(
+                mainAxisExtent: 100,
+                flipDirection: true,
+                child: new FadeInImage.memoryNetwork(
+                  placeholder: kTransparentImage,
+                  image: photo.urls.small,
+                  fit: BoxFit.cover,
+                ),
               ),
             )));
   }

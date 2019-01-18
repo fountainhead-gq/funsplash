@@ -26,7 +26,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         hasLabel: true,
         labelText: "data",
         labelHasShadow: false,
-        labelColor: Colors.white30,
+        labelColor: Colors.white70,
         labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
         currentButton: FloatingActionButton(
           heroTag: "data",
@@ -50,7 +50,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         hasLabel: true,
         labelText: "info",
         labelHasShadow: false,
-        labelColor: Colors.white30,
+        labelColor: Colors.white70,
         labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
         currentButton: FloatingActionButton(
           heroTag: "info",
@@ -74,7 +74,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         hasLabel: true,
         labelText: "download",
         labelHasShadow: false,
-        labelColor: Colors.white30,
+        labelColor: Colors.white70,
         labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
         currentButton: FloatingActionButton(
           heroTag: "download",

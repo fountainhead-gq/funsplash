@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:funsplash/api/unplash_api.dart';
 import 'package:funsplash/model/collection.dart';
 import 'package:funsplash/utils/colors.dart';
@@ -105,23 +106,7 @@ class _CollectionsCardState extends State<CollectionsCard> {
         itemCount: collections.length,
         itemBuilder: (context, index) {
           final Collection collection = collections[index];
-
           final List<Widget> overlayTexts = [];
-          // overlayTexts.add(Row(
-          //   children: [
-          //     CircleAvatar(
-          //       backgroundImage:
-          //           NetworkImage(collection.user.profileImage.medium),
-          //       radius: 12.0,
-          //     ),
-          //     Container(width: 10.0),
-          //     Text(
-          //       collection.user.name,
-          //       maxLines: 1,
-          //       overflow: TextOverflow.ellipsis,
-          //     ),
-          //   ],
-          // ));
           overlayTexts.add(Container(height: 5.0));
           overlayTexts.add(Text(
             collection.title,
@@ -148,11 +133,14 @@ class _CollectionsCardState extends State<CollectionsCard> {
               children: <Widget>[
                 Container(
                   color: CustomColor.colorFromHex(collection.coverPhoto.color),
-                  child: FadeInImage.memoryNetwork(
-                    placeholder: kTransparentImage,
-                    image: collection.coverPhoto.urls.regular,
-                    fadeInDuration: Duration(milliseconds: 225),
-                    fit: BoxFit.cover,
+                  child: new Parallax.inside(
+                    mainAxisExtent: 50,
+                    child: FadeInImage.memoryNetwork(
+                      placeholder: kTransparentImage,
+                      image: collection.coverPhoto.urls.regular,
+                      fadeInDuration: Duration(milliseconds: 225),
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 Container(

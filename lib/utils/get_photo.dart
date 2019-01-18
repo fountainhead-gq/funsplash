@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/ui/photo_detail.dart';
 import 'package:funsplash/utils/colors.dart';
@@ -135,11 +136,15 @@ class _PhotosCardState extends State<PhotosCard> {
                         //   fadeOutDuration: Duration(milliseconds: 500),
                         //   fit: BoxFit.cover,
                         // ),
-                        child: FadeInImage.memoryNetwork(
+                        child: new Parallax.inside(
+                          mainAxisExtent: 150,
+                          flipDirection: true,
+                          child: FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
                           image: photos[index].urls.regular,
                           fadeInDuration: Duration(milliseconds: 225),
                           fit: BoxFit.cover,
+                        ),
                         ),
                       ),
                       Material(

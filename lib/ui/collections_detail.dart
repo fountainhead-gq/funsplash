@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:funsplash/model/collection.dart';
 import 'package:funsplash/model/photo.dart';
+import 'package:funsplash/utils/colors.dart';
 import 'package:funsplash/api/unplash_api.dart';
 import 'package:funsplash/ui/photo_detail.dart';
 
@@ -58,7 +60,8 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
       if (collection == null) {
         newPhotos = await UnsplashApi().getCuratedPhotos();
       } else {
-        newPhotos = await UnsplashApi().getByCollectionsPhotos(collection, page);
+        newPhotos =
+            await UnsplashApi().getByCollectionsPhotos(collection, page);
       }
       setState(() {
         items.addAll(newPhotos);
@@ -71,56 +74,81 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
   @override
   Widget build(BuildContext context) {
     return new Container(
-        color: Colors.white,
-        child: new Container(
-          child: GridView.count(
-            padding: EdgeInsets.all(2.0),
-            crossAxisCount: 1,
-            controller: _scrollController,
-            children: List.generate(items.length, (index) {
-              if (index == items.length) {
-                return new CircularProgressIndicator();
-              }
-
-              Photo photo = items[index];
-              return CollectionPhotoItem(
-                photo: photo,
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => new PhotoDetailPage(photo: photo),
-                      ));
-                },
-              );
-            }),
-          ),
-        ));
-  }
-}
-
-class CollectionPhotoItem extends StatelessWidget {
-  @required
-  final Photo photo;
-
-  @required
-  final GestureTapCallback onTap;
-  final EdgeInsetsGeometry padding;
-  const CollectionPhotoItem({Key key, this.photo, this.onTap, this.padding})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return new Container(
-        child: new GestureDetector(
-            onTap: onTap,
-            child: new ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(3.0)),
-              child: new FadeInImage.memoryNetwork(
-                placeholder: kTransparentImage,
-                image: photo.urls.regular,
-                fit: BoxFit.cover,
+      child: ListView.builder(
+          // padding: EdgeInsets.all(2.0),
+          physics: AlwaysScrollableScrollPhysics(),
+          itemCount: items.length,
+          controller: _scrollController,
+          itemBuilder: (context, index) {
+            return new Container(
+              height: 250.0,
+              child: AspectRatio(
+                aspectRatio: 1.25,
+                child: Stack(
+                  alignment: const FractionalOffset(0.9, 0.1),
+                  children: <Widget>[
+                    Container(
+                      color: CustomColor.colorFromHex(items[index].color),
+                      child: new Parallax.inside(
+                        mainAxisExtent: 150,
+                        flipDirection: true,
+                        child: FadeInImage.memoryNetwork(
+                          placeholder: kTransparentImage,
+                          image: items[index].urls.regular,
+                          fadeInDuration: Duration(milliseconds: 225),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Material(
+                      type: MaterialType.transparency,
+                      borderRadius: new BorderRadius.circular(10.0),
+                      child: InkWell(
+                        highlightColor: Colors.black45,
+                        splashColor: Colors.black12,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  PhotoDetailPage(photo: items[index]),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
+                  fit: StackFit.expand,
+                ),
               ),
-            )));
+            );
+          }),
+    );
   }
 }
+
+// class CollectionPhotoItem extends StatelessWidget {
+//   @required
+//   final Photo photo;
+
+//   @required
+//   final GestureTapCallback onTap;
+//   final EdgeInsetsGeometry padding;
+//   const CollectionPhotoItem({Key key, this.photo, this.onTap, this.padding})
+//       : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return new Container(
+//         child: new GestureDetector(
+//             onTap: onTap,
+//             child: new ClipRRect(
+//               borderRadius: BorderRadius.all(Radius.circular(3.0)),
+//               child: new FadeInImage.memoryNetwork(
+//                 placeholder: kTransparentImage,
+//                 image: photo.urls.regular,
+//                 fit: BoxFit.cover,
+//               ),
+//             )));
+//   }
+// }
