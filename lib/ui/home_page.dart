@@ -4,7 +4,6 @@ import 'package:funsplash/ui/latest_page.dart';
 import 'package:funsplash/ui/popular_page.dart';
 import 'package:funsplash/ui/drawer_page.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:funsplash/ui/search_page.dart';
 import 'package:funsplash/ui/search_list.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,11 +19,10 @@ class _HomePageState extends State<HomePage>
   _HomePageState(this.title);
 
   SearchBar searchBar;
-  final SearchDemoSearchDelegate searchDelegate = SearchDemoSearchDelegate();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   TabController controller;
-  
+
   final _icons = [Icons.fiber_new, Icons.timeline, Icons.whatshot];
   DateTime _lastPressedAt;
 
@@ -168,17 +166,6 @@ class _HomePageState extends State<HomePage>
               onPressed: () {
                 _onSearch();
               },
-              // onPressed: () async {
-              //   final int selected = await showSearch<int>(
-              //     context: context,
-              //     delegate: searchDelegate,
-              //   );
-              //   if (selected != null && selected != _lastIntegerSelected) {
-              //     setState(() {
-              //       _lastIntegerSelected = selected;
-              //     });
-              //   }
-              // },
             )
           ],
         ),

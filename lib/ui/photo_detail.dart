@@ -100,6 +100,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
     return new Scaffold(
       key: scaffoldKey,
       body: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         primary: true,
         slivers: <Widget>[
           SliverAppBar(
