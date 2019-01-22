@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_parallax/flutter_parallax.dart';
-import 'package:funsplash/model/collection.dart';
-import 'package:funsplash/model/photo.dart';
-import 'package:funsplash/utils/colors.dart';
 import 'package:funsplash/api/unplash_api.dart';
-import 'package:funsplash/ui/photo_detail.dart';
+import 'package:funsplash/model/categories.dart';
+import 'package:funsplash/utils/colors.dart';
+import 'package:funsplash/ui/search_photo_detail.dart';
 
-class CollectionPhotosListView extends StatefulWidget {
-  final Collection collection;
-  CollectionPhotosListView({Key key, this.collection}) : super(key: key);
-
+class SearchResultPhotoPage extends StatefulWidget {
+  final String searchContent;
+  SearchResultPhotoPage(this.searchContent);
   @override
-  _CollectionPhotosListViewState createState() =>
-      _CollectionPhotosListViewState(collection);
+  _SearchResultPageState createState() => _SearchResultPageState(searchContent);
 }
 
-class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
-  List<Photo> items = [];
+class _SearchResultPageState extends State<SearchResultPhotoPage>
+    with TickerProviderStateMixin {
+  final Key _searchTabKey = const PageStorageKey('photo_search');
+  _SearchResultPageState(this.searchContent);
+  String searchContent;
+  int currentPageNumber = 1;
+
+  List<PhotoResults> categoriesResults;
   ScrollController _scrollController;
-  int page = 0;
-  int loadBefore = 50;
+
+  int pageNumber = 0;
+  int loadBefore = 100;
   bool isLoading = false;
   double scrollPosition = 0.0;
-  Collection collection;
-
-  _CollectionPhotosListViewState([this.collection]) : super();
 
   @override
   void initState() {
     super.initState();
-    items = [];
+    categoriesResults = [];
     _loadPhotos();
     _scrollController =
         new ScrollController(initialScrollOffset: scrollPosition);
@@ -54,30 +55,27 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
       setState(() {
         isLoading = true;
       });
-      page += 1;
+      pageNumber += 1;
       var newPhotos;
 
-      if (collection == null) {
-        newPhotos = await UnsplashApi().getCuratedPhotos();
-      } else {
-        newPhotos =
-            await UnsplashApi().getPhotosByCollections(collection, page);
-      }
+      newPhotos = await UnsplashApi()
+          .getPhotosBySearch(page: pageNumber, searchContext: searchContent);
+
       setState(() {
-        items.addAll(newPhotos);
+        categoriesResults.addAll(newPhotos.results);
         isLoading = false;
       });
     }
-    return new Future.value(items);
+    return new Future.value(categoriesResults);
   }
 
   @override
   Widget build(BuildContext context) {
     return new Container(
       child: ListView.builder(
-          // padding: EdgeInsets.all(2.0),
+          key: _searchTabKey,
           physics: AlwaysScrollableScrollPhysics(),
-          itemCount: items.length,
+          itemCount: categoriesResults.length,
           controller: _scrollController,
           itemBuilder: (context, index) {
             return new Container(
@@ -88,13 +86,14 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
                   alignment: const FractionalOffset(0.9, 0.1),
                   children: <Widget>[
                     Container(
-                      color: CustomColor.colorFromHex(items[index].color),
+                      color: CustomColor.colorFromHex(
+                          categoriesResults[index].color),
                       child: new Parallax.inside(
                         mainAxisExtent: 150,
                         flipDirection: true,
                         child: FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
-                          image: items[index].urls.regular,
+                          image: categoriesResults[index].urls.regular,
                           fadeInDuration: Duration(milliseconds: 225),
                           fit: BoxFit.cover,
                         ),
@@ -111,7 +110,8 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  PhotoDetailPage(photo: items[index]),
+                                  SearchPhotoDetailPage(
+                                      photo: categoriesResults[index]),
                             ),
                           );
                         },
@@ -126,29 +126,3 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
     );
   }
 }
-
-// class CollectionPhotoItem extends StatelessWidget {
-//   @required
-//   final Photo photo;
-
-//   @required
-//   final GestureTapCallback onTap;
-//   final EdgeInsetsGeometry padding;
-//   const CollectionPhotoItem({Key key, this.photo, this.onTap, this.padding})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return new Container(
-//         child: new GestureDetector(
-//             onTap: onTap,
-//             child: new ClipRRect(
-//               borderRadius: BorderRadius.all(Radius.circular(3.0)),
-//               child: new FadeInImage.memoryNetwork(
-//                 placeholder: kTransparentImage,
-//                 image: photo.urls.regular,
-//                 fit: BoxFit.cover,
-//               ),
-//             )));
-//   }
-// }

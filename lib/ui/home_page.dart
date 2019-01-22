@@ -5,6 +5,7 @@ import 'package:funsplash/ui/popular_page.dart';
 import 'package:funsplash/ui/drawer_page.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:funsplash/ui/search_page.dart';
+import 'package:funsplash/ui/search_list.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -23,7 +24,7 @@ class _HomePageState extends State<HomePage>
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   TabController controller;
-  int _lastIntegerSelected;
+  
   final _icons = [Icons.fiber_new, Icons.timeline, Icons.whatshot];
   DateTime _lastPressedAt;
 
@@ -164,17 +165,20 @@ class _HomePageState extends State<HomePage>
             new IconButton(
               icon: Icon(Icons.search),
               tooltip: 'Search',
-              onPressed: () async {
-                final int selected = await showSearch<int>(
-                  context: context,
-                  delegate: searchDelegate,
-                );
-                if (selected != null && selected != _lastIntegerSelected) {
-                  setState(() {
-                    _lastIntegerSelected = selected;
-                  });
-                }
+              onPressed: () {
+                _onSearch();
               },
+              // onPressed: () async {
+              //   final int selected = await showSearch<int>(
+              //     context: context,
+              //     delegate: searchDelegate,
+              //   );
+              //   if (selected != null && selected != _lastIntegerSelected) {
+              //     setState(() {
+              //       _lastIntegerSelected = selected;
+              //     });
+              //   }
+              // },
             )
           ],
         ),
@@ -194,5 +198,11 @@ class _HomePageState extends State<HomePage>
       return false;
     }
     return true;
+  }
+
+  void _onSearch() async {
+    await Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+      return new SearchListPage(null);
+    }));
   }
 }

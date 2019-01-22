@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:funsplash/ui/home_page.dart';
 import 'package:funsplash/ui/share_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
-import 'package:funsplash/ui/category_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -29,7 +28,6 @@ class MyApp extends StatelessWidget {
         SharePage.routName: (BuildContext context) => new SharePage(),
         CollectionsPage.routName: (BuildContext context) =>
             new CollectionsPage(),
-        CategoryPage.routName: (BuildContext context) => new CategoryPage(),
       },
     );
   }

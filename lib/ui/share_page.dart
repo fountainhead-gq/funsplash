@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:funsplash/api/unplash_api.dart';
 
 class SharePage extends StatelessWidget {
   static const String routName = '/share';
@@ -17,8 +16,8 @@ class SharePage extends StatelessWidget {
             elevation: 4.0,
             splashColor: Colors.blueGrey,
 
-            // child: Text('Launch screen'),
-            child: new Text(UnsplashApi().getCategory().toString()),
+            child: Text('Launch screen'),
+            // child: new Text(UnsplashApi().getCategories().toString()),
             // child: new Text(UnsplashApi().getPopularPhotos().toString()),
             onPressed: () {
               // Navigator.pushNamed(context, '/');

@@ -128,13 +128,13 @@ class _CollectionsCardState extends State<CollectionsCard> {
           ));
 
           return Container(
-            height: 250.0,
+            height: 230.0,
             child: Stack(
               children: <Widget>[
                 Container(
                   color: CustomColor.colorFromHex(collection.coverPhoto.color),
                   child: new Parallax.inside(
-                    mainAxisExtent: 50,
+                    mainAxisExtent: 150,
                     child: FadeInImage.memoryNetwork(
                       placeholder: kTransparentImage,
                       image: collection.coverPhoto.urls.regular,

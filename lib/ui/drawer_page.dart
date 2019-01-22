@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsplash/ui/share_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
-import 'package:funsplash/ui/category_page.dart';
 
 class NavigationDrawer extends StatefulWidget {
   @override
@@ -47,8 +46,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           getNavigationItem(Icons.home, "Home", '/'),
           getNavigationItem(
               Icons.collections, "Collections", CollectionsPage.routName),
-          getNavigationItem(
-              Icons.category, "Category", CategoryPage.routName),
           Divider(),
           getNavigationItem(Icons.share, "Share", SharePage.routName),
           getNavigationItem(Icons.send, "Send", SharePage.routName),

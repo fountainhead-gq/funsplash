@@ -120,10 +120,10 @@ class _PhotosCardState extends State<PhotosCard> {
           itemCount: photos.length,
           physics: AlwaysScrollableScrollPhysics(),
           itemBuilder: (context, index) => Container(
-                height: 250,
+                height: 230,
                 child: AspectRatio(
                   // aspectRatio: photos[index].width / photos[index].height,
-                  aspectRatio: 1.25,
+                  aspectRatio: 1.5,
                   child: Stack(
                     alignment: const FractionalOffset(0.9, 0.1),
                     children: <Widget>[

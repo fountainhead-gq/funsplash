@@ -5,7 +5,7 @@ import 'package:http/http.dart';
 import 'package:funsplash/model/collection.dart';
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/api/api_key.dart';
-import 'package:funsplash/model/category.dart';
+import 'package:funsplash/model/categories.dart';
 
 class UnsplashApi {
   static const baseUrl = 'https://api.unsplash.com';
@@ -60,7 +60,7 @@ class UnsplashApi {
         .toList();
   }
 
-  Future<List<Photo>> getByCollectionsPhotos(Collection collection,
+  Future<List<Photo>> getPhotosByCollections(Collection collection,
       [page = 1, perPage = 10]) async {
     final Response response = await get(
       "$baseUrl/collections/${collection.id}/photos?page=$page&per_page=$perPage",
@@ -70,30 +70,18 @@ class UnsplashApi {
     return decodedBody.map<Photo>((json) => Photo.fromJson(json)).toList();
   }
 
-  Future<List<Category>> getCategory([page = 1, perPage = 10]) async {
+  Future<GeneratedCategory> getPhotosBySearch(
+      {String searchContext, page: 1, perPage: 10}) async {
     final Response response = await get(
-      "$baseUrl/search/photos?page=$page&per_page=$perPage&query=animal",
+      "$baseUrl/search/photos?page=$page&per_page=$perPage&query=$searchContext",
       headers: headers,
     );
     final decodedBody = json.decode(utf8.decode(response.bodyBytes));
-    return Category.fromJson(decodedBody);
-    // return decodedBody
-    //     .map<Category>((json) => Category.fromJson(json))
-    //     .toList();
-  }
-
-  Future<List<Photo>> getByCategoryPhotos(var category,
-      [page = 1, perPage = 10]) async {
-    final Response response = await get(
-      "$baseUrl/search/photos?page=$page&per_page=$perPage&query=$category",
-      headers: headers,
-    );
-    final List decodedBody = json.decode(utf8.decode(response.bodyBytes));
-    return decodedBody.map<Photo>((json) => Photo.fromJson(json)).toList();
+    return GeneratedCategory.fromJson(decodedBody);
   }
 
   Future<List<Collection>> getFeaturedCollections(
-      {page: 1, perPage: 30}) async {
+      {page: 1, perPage: 10}) async {
     final Response response = await get(
       "$baseUrl/collections/featured?page=$page&per_page=$perPage",
       headers: headers,
@@ -104,7 +92,7 @@ class UnsplashApi {
         .toList();
   }
 
-  Future<List<Collection>> getCuratedCollections({perPage: 30}) async {
+  Future<List<Collection>> getCuratedCollections({perPage: 10}) async {
     final Response response = await get(
       "$baseUrl/collections/curated?per_page=$perPage",
       headers: headers,

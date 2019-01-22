@@ -2,9 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker_saver/image_picker_saver.dart';
-import 'package:funsplash/model/photo.dart';
 
-Widget createDataCard(BuildContext context, Photo photo) {
+Widget createDataCard(BuildContext context, var photo) {
   int likes = photo.likes;
   int downloads = photo.downloads;
   int views = photo.views;
@@ -50,7 +49,7 @@ Widget createDataCard(BuildContext context, Photo photo) {
   return card;
 }
 
-Widget createDownloadCard(BuildContext context, Photo photo) {
+Widget createDownloadCard(BuildContext context, var photo) {
   String fullPhotoUrl = photo.urls.full;
   String regularPhotoUrl = photo.urls.regular;
 

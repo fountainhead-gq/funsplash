@@ -1,7 +1,7 @@
 class GeneratedCategory {
   int total;
   int totalPages;
-  List<Results> results;
+  List<PhotoResults> results;
 
   GeneratedCategory({this.total, this.totalPages, this.results});
 
@@ -9,9 +9,9 @@ class GeneratedCategory {
     total = json['total'];
     totalPages = json['total_pages'];
     if (json['results'] != null) {
-      results = new List<Results>();
+      results = new List<PhotoResults>();
       json['results'].forEach((v) {
-        results.add(new Results.fromJson(v));
+        results.add(new PhotoResults.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class GeneratedCategory {
   }
 }
 
-class Results {
+class PhotoResults {
   String id;
   String createdAt;
   String updatedAt;
@@ -37,8 +37,9 @@ class Results {
   String description;
   Urls urls;
   Links links;
+  User user;
 
-  Results({
+  PhotoResults({
     this.id,
     this.createdAt,
     this.updatedAt,
@@ -48,9 +49,10 @@ class Results {
     this.description,
     this.urls,
     this.links,
+    this.user,
   });
 
-  Results.fromJson(Map<String, dynamic> json) {
+  PhotoResults.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
@@ -60,6 +62,7 @@ class Results {
     description = json['description'];
     urls = json['urls'] != null ? new Urls.fromJson(json['urls']) : null;
     links = json['links'] != null ? new Links.fromJson(json['links']) : null;
+    user = json['user'] != null ? new User.fromJson(json['user']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -131,6 +134,107 @@ class Links {
     data['html'] = this.html;
     data['download'] = this.download;
     data['download_location'] = this.downloadLocation;
+    return data;
+  }
+}
+
+class User {
+  String id;
+  String updatedAt;
+  String username;
+  String name;
+  String firstName;
+  String lastName;
+  String bio;
+  String location;
+  Links links;
+  ProfileImage profileImage;
+  String instagramUsername;
+  int totalCollections;
+  int totalLikes;
+  int totalPhotos;
+  bool acceptedTos;
+
+  User(
+      {this.id,
+      this.updatedAt,
+      this.username,
+      this.name,
+      this.firstName,
+      this.lastName,
+      this.bio,
+      this.location,
+      this.links,
+      this.profileImage,
+      this.instagramUsername,
+      this.totalCollections,
+      this.totalLikes,
+      this.totalPhotos,
+      this.acceptedTos});
+
+  User.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    updatedAt = json['updated_at'];
+    username = json['username'];
+    name = json['name'];
+    firstName = json['first_name'];
+    lastName = json['last_name'];
+    bio = json['bio'];
+    location = json['location'];
+    links = json['links'] != null ? new Links.fromJson(json['links']) : null;
+    profileImage = json['profile_image'] != null
+        ? new ProfileImage.fromJson(json['profile_image'])
+        : null;
+    instagramUsername = json['instagram_username'];
+    totalCollections = json['total_collections'];
+    totalLikes = json['total_likes'];
+    totalPhotos = json['total_photos'];
+    acceptedTos = json['accepted_tos'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['updated_at'] = this.updatedAt;
+    data['username'] = this.username;
+    data['name'] = this.name;
+    data['first_name'] = this.firstName;
+    data['last_name'] = this.lastName;
+    data['bio'] = this.bio;
+    data['location'] = this.location;
+    if (this.links != null) {
+      data['links'] = this.links.toJson();
+    }
+    if (this.profileImage != null) {
+      data['profile_image'] = this.profileImage.toJson();
+    }
+    data['instagram_username'] = this.instagramUsername;
+    data['total_collections'] = this.totalCollections;
+    data['total_likes'] = this.totalLikes;
+    data['total_photos'] = this.totalPhotos;
+    data['accepted_tos'] = this.acceptedTos;
+    return data;
+  }
+}
+
+class ProfileImage {
+  String small;
+  String medium;
+  String large;
+
+  ProfileImage({this.small, this.medium, this.large});
+
+  ProfileImage.fromJson(Map<String, dynamic> json) {
+    small = json['small'];
+    medium = json['medium'];
+    large = json['large'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['small'] = this.small;
+    data['medium'] = this.medium;
+    data['large'] = this.large;
     return data;
   }
 }
