@@ -5,7 +5,8 @@ import 'package:http/http.dart';
 import 'package:funsplash/model/collection.dart';
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/api/api_key.dart';
-import 'package:funsplash/model/categories.dart';
+import 'package:funsplash/model/generated_collection.dart';
+import 'package:funsplash/model/generated_photo.dart';
 
 class UnsplashApi {
   static const baseUrl = 'https://api.unsplash.com';
@@ -70,15 +71,35 @@ class UnsplashApi {
     return decodedBody.map<Photo>((json) => Photo.fromJson(json)).toList();
   }
 
-  Future<GeneratedCategory> getPhotosBySearch(
+  Future<GeneratedPhoto> getPhotosBySearch(
       {String searchContext, page: 1, perPage: 10}) async {
     final Response response = await get(
       "$baseUrl/search/photos?page=$page&per_page=$perPage&query=$searchContext",
       headers: headers,
     );
     final decodedBody = json.decode(utf8.decode(response.bodyBytes));
-    return GeneratedCategory.fromJson(decodedBody);
+    return GeneratedPhoto.fromJson(decodedBody);
   }
+
+  Future<GeneratedCollection> getCollectionsBySearch(
+      {String searchContext, page: 1, perPage: 10}) async {
+    final Response response = await get(
+      "$baseUrl/search/collections?page=$page&per_page=$perPage&query=$searchContext",
+      headers: headers,
+    );
+    final decodedBody = json.decode(utf8.decode(response.bodyBytes));
+    return GeneratedCollection.fromJson(decodedBody);
+  }
+
+  // Future<GeneratedCategory> getPhotosBySearch(
+  //     {String searchContext, page: 1, perPage: 10}) async {
+  //   final Response response = await get(
+  //     "$baseUrl/search/photos?page=$page&per_page=$perPage&query=$searchContext",
+  //     headers: headers,
+  //   );
+  //   final decodedBody = json.decode(utf8.decode(response.bodyBytes));
+  //   return GeneratedCategory.fromJson(decodedBody);
+  // }
 
   Future<List<Collection>> getFeaturedCollections(
       {page: 1, perPage: 10}) async {

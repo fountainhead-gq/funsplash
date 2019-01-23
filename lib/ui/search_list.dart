@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsplash/ui/search_photo.dart';
+import 'package:funsplash/ui/search_collection.dart';
 
 class SearchListPage extends StatefulWidget {
   final String searchContent;
@@ -15,7 +16,7 @@ class _SearchListPageState extends State<SearchListPage>
   FocusNode _focusNode = new FocusNode();
 
   SearchResultPhotoPage _searchPhotoListPage;
-  SearchResultPhotoPage _searchCollectionListPage;
+  SearchResultCollectionPage _searchCollectionListPage;
   SearchResultPhotoPage _searchUserListPage;
   String searchContent;
   _SearchListPageState(this.searchContent);
@@ -42,7 +43,7 @@ class _SearchListPageState extends State<SearchListPage>
     _focusNode.unfocus();
     setState(() {
       _searchPhotoListPage = new SearchResultPhotoPage(content);
-      _searchCollectionListPage = new SearchResultPhotoPage(content);
+      _searchCollectionListPage = new SearchResultCollectionPage(content);
       _searchUserListPage = new SearchResultPhotoPage(content);
     });
   }

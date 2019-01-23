@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:flutter_parallax/flutter_parallax.dart';
 import 'package:funsplash/api/unplash_api.dart';
-import 'package:funsplash/model/categories.dart';
 import 'package:funsplash/utils/colors.dart';
-import 'package:funsplash/ui/search_photo_detail.dart';
+import 'package:funsplash/ui/photo_detail.dart';
+import 'package:funsplash/model/photo.dart';
 
 class SearchResultPhotoPage extends StatefulWidget {
   final String searchContent;
@@ -20,7 +20,7 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
   String searchContent;
   int currentPageNumber = 1;
 
-  List<PhotoResults> categoriesResults;
+  List<Photo> photosResults;
   ScrollController _scrollController;
 
   int pageNumber = 0;
@@ -31,7 +31,7 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
   @override
   void initState() {
     super.initState();
-    categoriesResults = [];
+    photosResults = [];
     _loadPhotos();
     _scrollController =
         new ScrollController(initialScrollOffset: scrollPosition);
@@ -62,11 +62,11 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
           .getPhotosBySearch(page: pageNumber, searchContext: searchContent);
 
       setState(() {
-        categoriesResults.addAll(newPhotos.results);
+        photosResults.addAll(newPhotos.results);
         isLoading = false;
       });
     }
-    return new Future.value(categoriesResults);
+    return new Future.value(photosResults);
   }
 
   @override
@@ -75,7 +75,7 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
       child: ListView.builder(
           key: _searchTabKey,
           physics: AlwaysScrollableScrollPhysics(),
-          itemCount: categoriesResults.length,
+          itemCount: photosResults.length,
           controller: _scrollController,
           itemBuilder: (context, index) {
             return new Container(
@@ -86,14 +86,14 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
                   alignment: const FractionalOffset(0.9, 0.1),
                   children: <Widget>[
                     Container(
-                      color: CustomColor.colorFromHex(
-                          categoriesResults[index].color),
+                      color:
+                          CustomColor.colorFromHex(photosResults[index].color),
                       child: new Parallax.inside(
                         mainAxisExtent: 150,
                         flipDirection: true,
                         child: FadeInImage.memoryNetwork(
                           placeholder: kTransparentImage,
-                          image: categoriesResults[index].urls.regular,
+                          image: photosResults[index].urls.regular,
                           fadeInDuration: Duration(milliseconds: 225),
                           fit: BoxFit.cover,
                         ),
@@ -110,8 +110,7 @@ class _SearchResultPageState extends State<SearchResultPhotoPage>
                             context,
                             MaterialPageRoute(
                               builder: (BuildContext context) =>
-                                  SearchPhotoDetailPage(
-                                      photo: categoriesResults[index]),
+                                  PhotoDetailPage(photo: photosResults[index]),
                             ),
                           );
                         },
