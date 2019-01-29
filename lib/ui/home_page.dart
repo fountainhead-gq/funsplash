@@ -13,8 +13,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState(title);
 }
 
-class _HomePageState extends State<HomePage>
-    with SingleTickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   final String title;
   _HomePageState(this.title);
 
@@ -156,7 +155,7 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
         key: _scaffoldKey,
         appBar: new AppBar(
-          backgroundColor: Colors.black45,
+          // backgroundColor: Colors.black45,
           bottom: getTabBar(),
           title: new Text(title),
           actions: <Widget>[

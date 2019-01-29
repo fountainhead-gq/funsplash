@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:funsplash/ui/share_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
+import 'package:funsplash/ui/settings_page.dart';
+import 'package:funsplash/ui/theme_page.dart';
 
 class NavigationDrawer extends StatefulWidget {
   @override
@@ -10,7 +12,10 @@ class NavigationDrawer extends StatefulWidget {
 class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
-    return getDrawer();
+    return new Container(
+      color: Theme.of(context).primaryColor,
+      child: getDrawer(),
+    );
   }
 
   Widget getDrawer() {
@@ -47,6 +52,9 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
           getNavigationItem(
               Icons.collections, "Collections", CollectionsPage.routName),
           Divider(),
+          getNavigationItem(Icons.settings, "Settings", SettingPage.routName),
+          getNavigationItem(
+              Icons.color_lens, "Theme", ChangeThemePage.routName),
           getNavigationItem(Icons.share, "Share", SharePage.routName),
           getNavigationItem(Icons.send, "Send", SharePage.routName),
         ],

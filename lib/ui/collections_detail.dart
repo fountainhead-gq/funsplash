@@ -71,84 +71,77 @@ class _CollectionPhotosListViewState extends State<CollectionPhotosListView> {
     return new Future.value(items);
   }
 
+  // Widget buildFloatingActionButton() {
+  //   if (_scrollController == null || _scrollController.offset < 500) {
+  //     return null;
+  //   }
+
+  //   return new FloatingActionButton(
+  //       heroTag: '',
+  //       backgroundColor: Theme.of(context).primaryColor,
+  //       child: Icon(
+  //         Icons.keyboard_arrow_up,
+  //       ),
+  //       onPressed: () {
+  //         _scrollController.animateTo(0.0,
+  //             duration: new Duration(milliseconds: 300), curve: Curves.linear);
+  //       });
+  // }
+
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      child: ListView.builder(
-          // padding: EdgeInsets.all(2.0),
-          physics: AlwaysScrollableScrollPhysics(),
-          itemCount: items.length,
-          controller: _scrollController,
-          itemBuilder: (context, index) {
-            return new Container(
-              height: 230.0,
-              child: AspectRatio(
-                aspectRatio: 1.5,
-                child: Stack(
-                  alignment: const FractionalOffset(0.9, 0.1),
-                  children: <Widget>[
-                    Container(
-                      color: CustomColor.colorFromHex(items[index].color),
-                      child: new Parallax.inside(
-                        mainAxisExtent: 150,
-                        flipDirection: true,
-                        child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: items[index].urls.regular,
-                          fadeInDuration: Duration(milliseconds: 225),
-                          fit: BoxFit.cover,
+    return new Scaffold(
+      body: new Container(
+        child: ListView.builder(
+            // padding: EdgeInsets.all(2.0),
+            physics: AlwaysScrollableScrollPhysics(),
+            itemCount: items.length,
+            controller: _scrollController,
+            itemBuilder: (context, index) {
+              return new Container(
+                height: 230.0,
+                child: AspectRatio(
+                  aspectRatio: 1.5,
+                  child: Stack(
+                    alignment: const FractionalOffset(0.9, 0.1),
+                    children: <Widget>[
+                      Container(
+                        color: CustomColor.colorFromHex(items[index].color),
+                        child: new Parallax.inside(
+                          mainAxisExtent: 150,
+                          flipDirection: true,
+                          child: FadeInImage.memoryNetwork(
+                            placeholder: kTransparentImage,
+                            image: items[index].urls.regular,
+                            fadeInDuration: Duration(milliseconds: 225),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
-                    ),
-                    Material(
-                      type: MaterialType.transparency,
-                      borderRadius: new BorderRadius.circular(10.0),
-                      child: InkWell(
-                        highlightColor: Colors.black45,
-                        splashColor: Colors.black12,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  PhotoDetailPage(photo: items[index]),
-                            ),
-                          );
-                        },
+                      Material(
+                        type: MaterialType.transparency,
+                        borderRadius: new BorderRadius.circular(10.0),
+                        child: InkWell(
+                          highlightColor: Colors.black45,
+                          splashColor: Colors.black12,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    PhotoDetailPage(photo: items[index]),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                  fit: StackFit.expand,
+                    ],
+                    fit: StackFit.expand,
+                  ),
                 ),
-              ),
-            );
-          }),
+              );
+            }),
+      ),
     );
   }
 }
-
-// class CollectionPhotoItem extends StatelessWidget {
-//   @required
-//   final Photo photo;
-
-//   @required
-//   final GestureTapCallback onTap;
-//   final EdgeInsetsGeometry padding;
-//   const CollectionPhotoItem({Key key, this.photo, this.onTap, this.padding})
-//       : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return new Container(
-//         child: new GestureDetector(
-//             onTap: onTap,
-//             child: new ClipRRect(
-//               borderRadius: BorderRadius.all(Radius.circular(3.0)),
-//               child: new FadeInImage.memoryNetwork(
-//                 placeholder: kTransparentImage,
-//                 image: photo.urls.regular,
-//                 fit: BoxFit.cover,
-//               ),
-//             )));
-//   }
-// }

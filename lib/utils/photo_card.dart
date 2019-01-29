@@ -2,8 +2,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker_saver/image_picker_saver.dart';
+import 'package:funsplash/model/photo.dart';
 
-Widget createDataCard(BuildContext context, var photo) {
+
+Widget photoDataCard(BuildContext context, Photo photo) {
   int likes = photo.likes;
   int downloads = photo.downloads;
   int views = photo.views;
@@ -106,3 +108,75 @@ void _downloadNetworkImage(String url) async {
   var filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes);
   var savedFile = File.fromUri(Uri.file(filePath));
 }
+
+
+
+// Widget exifDataCard(BuildContext context, Photo photo) {
+//   String make = photo.exif.make;
+//   String model = photo.exif.model;
+//   String aperture = photo.exif.aperture;
+//   String exposureTime = photo.exif.exposureTime;
+//   String focalLength = photo.exif.focalLength;
+//   int iso = photo.exif.iso;
+
+//   var card = SizedBox(
+//     height: 350.0,
+//     child: Card(
+//       color: Colors.black,
+//       child: Column(
+//         children: [
+//           ListTile(
+//             leading: Icon(
+//               Icons.photo,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(make.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//           Divider(),
+//           ListTile(
+//             leading: Icon(
+//               Icons.photo_camera,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(model.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//           ListTile(
+//             leading: Icon(
+//               Icons.timelapse,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(exposureTime.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//           ListTile(
+//             leading: Icon(
+//               Icons.camera,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(aperture.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//           ListTile(
+//             leading: Icon(
+//               Icons.center_focus_strong,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(focalLength.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//           ListTile(
+//             leading: Icon(
+//               Icons.iso,
+//               color: Colors.amber[200],
+//             ),
+//             title: Text(iso.toString(),
+//                 style: TextStyle(fontWeight: FontWeight.w500)),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+//   return card;
+// }

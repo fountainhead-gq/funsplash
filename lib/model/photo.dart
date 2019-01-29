@@ -13,6 +13,7 @@ class Photo {
   final String description;
   final Urls urls;
   final User user;
+  // final Exif exif;
 
   const Photo(
     this.id,
@@ -27,6 +28,7 @@ class Photo {
     this.likes,
     this.downloads,
     this.views,
+    // this.exif,
   );
 
   static fromJson(json) => Photo(
@@ -42,6 +44,8 @@ class Photo {
         json['likes'],
         json['downloads'],
         json['views'],
+        
+        // json['exif'] != null ? Exif.fromJson(json['exif']) : null,
       );
 }
 
@@ -66,20 +70,20 @@ class Urls {
 // class Exif {
 //   final String make;
 //   final String model;
-//   final String exposure_time;
+//   final String exposureTime;
 //   final String aperture;
-//   final String focal_length;
-//   final String iso;
+//   final String focalLength;
+//   final int iso;
 
-//   const Exif(this.make, this.model, this.exposure_time, this.aperture,
-//       this.focal_length, this.iso);
+//   const Exif(this.make, this.model, this.exposureTime, this.aperture,
+//       this.focalLength, this.iso);
 
 //   static fromJson(json) => Exif(
-//         json['make']??'--',
-//         json['model']??'--',
-//         json['exposure_time']??'--',
-//         json['aperture']??'--',
-//         json['focal_length']??'--',
-//         json['iso']??'--',
+//         json['make'],
+//         json['model'],
+//         json['exposure_time'],
+//         json['aperture'],
+//         json['focal_length'],
+//         json['iso'],
 //       );
 // }

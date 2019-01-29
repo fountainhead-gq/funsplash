@@ -7,37 +7,136 @@ import 'package:funsplash/ui/photo_detail.dart';
 import 'package:funsplash/utils/colors.dart';
 import 'package:funsplash/api/unplash_api.dart';
 
-int currentPageNumber = 1;
-Widget getNetworkPhoto(Key key, _getPhotos) {
-  return FutureBuilder<List<Photo>>(
-      future: _getPhotos,
-      builder: (BuildContext context, snapshot) {
-        try {
-          switch (snapshot.connectionState) {
-            case ConnectionState.none:
-            // return new Text('Press button to start');
-            case ConnectionState.waiting:
-            // return new Text('loading...');
-            default:
-              if (snapshot.hasError)
-                return new Text('Error: ${snapshot.error}');
-              else
-                return snapshot.hasData
-                    ? PhotosCard(
-                        key: key,
-                        photos: snapshot.data,
-                        pageNumber: currentPageNumber,
-                      )
-                    : Center(child: CircularProgressIndicator());
-          }
-        } catch (e) {
-          return new Text(
-            "Error Fetching Data",
-            style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-          );
-        }
-      });
+class GetNetworkPhoto extends StatefulWidget {
+  GetNetworkPhoto({Key key}) : super(key: key);
+
+  @override
+  _GetNetworkPhotoState createState() => _GetNetworkPhotoState(key);
 }
+
+class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
+  Key key;
+  int currentPageNumber = 1;
+  _GetNetworkPhotoState(this.key);
+  Future<List<Photo>> getPhotos;
+
+  @override
+  void initState() {
+    key = widget.key;
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (key.toString().contains('photos_latest')) {
+      getPhotos = UnsplashApi().getLatestPhotos();
+    } else if (key.toString().contains('photos_curated')) {
+      getPhotos = UnsplashApi().getCuratedPhotos();
+    } else if (key.toString().contains('photos_popular')) {
+      getPhotos = UnsplashApi().getPopularPhotos();
+    }
+
+    return new Scaffold(
+      body: new Container(
+        child: new FutureBuilder<List<Photo>>(
+            future: getPhotos,
+            builder: (BuildContext context, snapshot) {
+              try {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.none:
+                  // return new Text('Press button to start');
+                  case ConnectionState.waiting:
+                  // return new Text('loading...');
+                  default:
+                    if (snapshot.hasError)
+                      return new Container(
+                        child: new Center(
+                          child: Column(
+                            children: <Widget>[
+                              Icon(Icons.cloud_off),
+                              Text(
+                                'Please reload',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: new TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    else
+                      return snapshot.hasData
+                          ? PhotosCard(
+                              key: key,
+                              photos: snapshot.data,
+                              pageNumber: currentPageNumber,
+                            )
+                          : Center(child: CircularProgressIndicator());
+                }
+              } catch (e) {
+                return new Text(
+                  "Error Fetching Data",
+                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                );
+              }
+            }),
+      ),
+    );
+  }
+}
+
+// int currentPageNumber = 1;
+// Widget getNetworkPhoto(Key key, _getPhotos) {
+//   return FutureBuilder<List<Photo>>(
+//       future: _getPhotos,
+//       builder: (BuildContext context, snapshot) {
+//         try {
+//           switch (snapshot.connectionState) {
+//             case ConnectionState.none:
+//             // return new Text('Press button to start');
+//             case ConnectionState.waiting:
+//             // return new Text('loading...');
+//             default:
+//               if (snapshot.hasError)
+//                 return new Container(
+//                   child: new Center(
+//                     child: Column(
+//                       children: <Widget>[
+//                         Icon(Icons.cloud_off),
+//                         Text(
+//                           'Please reload',
+//                           maxLines: 1,
+//                           overflow: TextOverflow.ellipsis,
+//                           style:
+//                               new TextStyle(color: Colors.white, fontSize: 16),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               else
+//                 return snapshot.hasData
+//                     ? PhotosCard(
+//                         key: key,
+//                         photos: snapshot.data,
+//                         pageNumber: currentPageNumber,
+//                       )
+//                     : Center(child: CircularProgressIndicator());
+//           }
+//         } catch (e) {
+//           return new Text(
+//             "Error Fetching Data",
+//             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+//           );
+//         }
+//       });
+// }
 
 class PhotosCard extends StatefulWidget {
   final List<Photo> photos;
@@ -47,10 +146,11 @@ class PhotosCard extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PhotosCardState createState() => _PhotosCardState();
+  _PhotosCardState createState() => _PhotosCardState(photos);
 }
 
 class _PhotosCardState extends State<PhotosCard> {
+  _PhotosCardState(this.photos);
   List<Photo> photos;
   int pageNumber;
   Key key;
@@ -140,11 +240,11 @@ class _PhotosCardState extends State<PhotosCard> {
                           mainAxisExtent: 150,
                           flipDirection: true,
                           child: FadeInImage.memoryNetwork(
-                          placeholder: kTransparentImage,
-                          image: photos[index].urls.regular,
-                          fadeInDuration: Duration(milliseconds: 225),
-                          fit: BoxFit.cover,
-                        ),
+                            placeholder: kTransparentImage,
+                            image: photos[index].urls.regular,
+                            fadeInDuration: Duration(milliseconds: 225),
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Material(

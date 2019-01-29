@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class CustomColor {
   static Color colorFromHex(String hex) {
@@ -25,3 +26,22 @@ class CustomColor {
     }
   }
 }
+
+final List<Color> themeList = [
+  Colors.black,
+  Colors.red,
+  Colors.teal,
+  Colors.pink,
+  Colors.amber,
+  Colors.orange,
+  Colors.green,
+  Colors.blue,
+  Colors.lightBlue,
+  Colors.purple,
+  Colors.deepPurple,
+  Colors.indigo,
+  Colors.cyan,
+  Colors.brown,
+  Colors.grey,
+  Colors.blueGrey
+];

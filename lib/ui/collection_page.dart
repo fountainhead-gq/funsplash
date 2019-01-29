@@ -17,6 +17,9 @@ class _CollectionsPageState extends State<CollectionsPage>
   final Key _allTabKey = const PageStorageKey('collections_all');
   int currentPageNumber = 1;
 
+
+
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -40,6 +43,7 @@ class _CollectionsPageState extends State<CollectionsPage>
           },
         ),
       ),
+      
     );
   }
 }

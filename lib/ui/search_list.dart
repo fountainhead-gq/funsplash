@@ -17,11 +17,11 @@ class _SearchListPageState extends State<SearchListPage>
 
   SearchResultPhotoPage _searchPhotoListPage;
   SearchResultCollectionPage _searchCollectionListPage;
-  SearchResultPhotoPage _searchUserListPage;
+
   String searchContent;
   _SearchListPageState(this.searchContent);
 
-  final _tabTitle = ['photo', 'collection', 'user'];
+  final _tabTitle = ['Photos', 'Collections'];
   TabController controller;
 
   @override
@@ -44,7 +44,6 @@ class _SearchListPageState extends State<SearchListPage>
     setState(() {
       _searchPhotoListPage = new SearchResultPhotoPage(content);
       _searchCollectionListPage = new SearchResultCollectionPage(content);
-      _searchUserListPage = new SearchResultPhotoPage(content);
     });
   }
 
@@ -61,9 +60,6 @@ class _SearchListPageState extends State<SearchListPage>
         ),
         new Tab(
           text: _tabTitle[1].toString(),
-        ),
-        new Tab(
-          text: _tabTitle[2].toString(),
         ),
       ],
       controller: controller,
@@ -101,13 +97,13 @@ class _SearchListPageState extends State<SearchListPage>
                 onPressed: () {
                   changeContent(_searchController.text);
                 }),
-            new IconButton(
-                icon: new Icon(Icons.close),
-                onPressed: () {
-                  setState(() {
-                    _searchController.clear();
-                  });
-                }),
+            // new IconButton(
+            //     icon: new Icon(Icons.close),
+            //     onPressed: () {
+            //       setState(() {
+            //         _searchController.clear();
+            //       });
+            //     }),
           ],
         ),
         body: (_searchController.text == null || _searchController.text.isEmpty)
@@ -117,9 +113,6 @@ class _SearchListPageState extends State<SearchListPage>
             : getTabBarView(<Widget>[
                 _searchPhotoListPage,
                 _searchCollectionListPage,
-                _searchUserListPage
-              ])
-        // : _searchPhotoListPage,
-        );
+              ]));
   }
 }

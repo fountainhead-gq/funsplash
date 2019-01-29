@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:transparent_image/transparent_image.dart';
 import 'package:funsplash/model/photo.dart';
-import 'package:funsplash/utils/create_card.dart';
+import 'package:funsplash/utils/photo_card.dart';
 import 'package:funsplash/utils/colors.dart';
 
 class PhotoDetailPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 builder: (context) {
                   return Container(
                     child: new Center(
-                      child: createDataCard(context, photo),
+                      child: photoDataCard(context, photo),
                     ),
                   );
                 });
@@ -63,7 +63,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 builder: (context) {
                   return Container(
                     child: new Center(
-                      child: createDataCard(context, photo),
+                      child: photoDataCard(context, photo),
                     ),
                   );
                 });
@@ -130,8 +130,8 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         ],
       ),
       floatingActionButton: UnicornDialer(
-          backgroundColor: Color.fromRGBO(255, 255, 255, 0.15),
-          parentButtonBackground: Colors.amberAccent,
+          backgroundColor: Color.fromRGBO(255, 255, 255, 0.25),
+          parentButtonBackground: Colors.amber[300],
           orientation: UnicornOrientation.VERTICAL,
           parentButton: Icon(Icons.keyboard_arrow_up),
           childButtons: childButtons),
