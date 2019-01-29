@@ -6,6 +6,7 @@ import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/ui/photo_detail.dart';
 import 'package:funsplash/utils/colors.dart';
 import 'package:funsplash/api/unplash_api.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class GetNetworkPhoto extends StatefulWidget {
   GetNetworkPhoto({Key key}) : super(key: key);
@@ -60,7 +61,8 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
                             children: <Widget>[
                               Icon(Icons.cloud_off),
                               Text(
-                                'Please reload',
+                                FunsplashLocalizations.of(context)
+                                    .trans('reload'),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: new TextStyle(
@@ -90,53 +92,6 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
     );
   }
 }
-
-// int currentPageNumber = 1;
-// Widget getNetworkPhoto(Key key, _getPhotos) {
-//   return FutureBuilder<List<Photo>>(
-//       future: _getPhotos,
-//       builder: (BuildContext context, snapshot) {
-//         try {
-//           switch (snapshot.connectionState) {
-//             case ConnectionState.none:
-//             // return new Text('Press button to start');
-//             case ConnectionState.waiting:
-//             // return new Text('loading...');
-//             default:
-//               if (snapshot.hasError)
-//                 return new Container(
-//                   child: new Center(
-//                     child: Column(
-//                       children: <Widget>[
-//                         Icon(Icons.cloud_off),
-//                         Text(
-//                           'Please reload',
-//                           maxLines: 1,
-//                           overflow: TextOverflow.ellipsis,
-//                           style:
-//                               new TextStyle(color: Colors.white, fontSize: 16),
-//                         )
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               else
-//                 return snapshot.hasData
-//                     ? PhotosCard(
-//                         key: key,
-//                         photos: snapshot.data,
-//                         pageNumber: currentPageNumber,
-//                       )
-//                     : Center(child: CircularProgressIndicator());
-//           }
-//         } catch (e) {
-//           return new Text(
-//             "Error Fetching Data",
-//             style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-//           );
-//         }
-//       });
-// }
 
 class PhotosCard extends StatefulWidget {
   final List<Photo> photos;
@@ -229,13 +184,6 @@ class _PhotosCardState extends State<PhotosCard> {
                     children: <Widget>[
                       Container(
                         color: CustomColor.colorFromHex(photos[index].color),
-                        // child: CachedNetworkImage(
-                        //   placeholder: new CircularProgressIndicator(),
-                        //   imageUrl: photos[index].urls.regular,
-                        //   fadeInDuration: Duration(milliseconds: 225),
-                        //   fadeOutDuration: Duration(milliseconds: 500),
-                        //   fit: BoxFit.cover,
-                        // ),
                         child: new Parallax.inside(
                           mainAxisExtent: 150,
                           flipDirection: true,

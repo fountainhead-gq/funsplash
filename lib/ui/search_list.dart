@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:funsplash/ui/search_photo.dart';
 import 'package:funsplash/ui/search_collection.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class SearchListPage extends StatefulWidget {
   final String searchContent;
@@ -75,11 +76,13 @@ class _SearchListPageState extends State<SearchListPage>
 
   @override
   Widget build(BuildContext context) {
+    final String searchTitle =
+        FunsplashLocalizations.of(context).trans('search');
     TextField searchField = new TextField(
       autofocus: true,
       decoration: new InputDecoration(
         border: InputBorder.none,
-        hintText: 'search',
+        hintText: searchTitle,
       ),
       focusNode: _focusNode,
       controller: _searchController,
@@ -93,7 +96,7 @@ class _SearchListPageState extends State<SearchListPage>
           actions: <Widget>[
             new IconButton(
                 icon: new Icon(Icons.search),
-                tooltip: 'search',
+                tooltip: searchTitle,
                 onPressed: () {
                   changeContent(_searchController.text);
                 }),

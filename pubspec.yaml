@@ -65,6 +65,8 @@ flutter:
   assets:
    - assets/images/avatar.png
    - assets/images/tabbar.jpg
+   - assets/localization/en.json
+   - assets/localization/zh.json   
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:funsplash/ui/home_page.dart';
-import 'package:funsplash/ui/share_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
-import 'package:funsplash/ui/settings_page.dart';
 import 'package:funsplash/utils/theme_config.dart';
 import 'package:funsplash/utils/custom_localizations.dart';
 import 'package:funsplash/ui/theme_page.dart';
@@ -20,13 +18,11 @@ class MyApp extends StatefulWidget {
 
 class MyAppState extends State<MyApp> {
   Color themeColor = ThemeUtils.currentColorTheme;
-  Locale _locale;
 
   @override
   void initState() {
     super.initState();
-    // setLocalizedValues(localizedValues);
-    // _loadLocale();
+
     ThemeUtils.getColorThemeIndex().then((index) {
       if (index != null) {
         ThemeUtils.currentColorTheme = ThemeUtils.supportColors[index];
@@ -41,26 +37,15 @@ class MyAppState extends State<MyApp> {
     });
   }
 
-  // void _loadLocale() {
-  //   setState(() {
-  //     LanguageModel model = SpHelper.getLanguageModel();
-  //     if (model != null) {
-  //       _locale = new Locale(model.languageCode, model.countryCode);
-  //     } else {
-  //       _locale = null;
-  //     }
-  //   });
-  // }
-
   @override
   void dispose() {
     super.dispose();
   }
 
-  final String title = 'funsplash';
-
   @override
   Widget build(BuildContext context) {
+    // print(themeColor); 
+    final String title = "funsplash";
     return MaterialApp(
       title: title,
       debugShowCheckedModeBanner: false,
@@ -68,19 +53,31 @@ class MyAppState extends State<MyApp> {
         primaryColor: themeColor,
       ),
       home: HomePage(title: title),
-      // locale: _locale,
-      // localizationsDelegates: [
-      //   GlobalMaterialLocalizations.delegate,
-      //   GlobalWidgetsLocalizations.delegate,
-      //   CustomLocalizations.delegate
-      // ],
-      // supportedLocales: CustomLocalizations.supportedLocales,
+      supportedLocales: [
+        const Locale('zh', ''),
+        const Locale('en', ''),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        FunsplashLocalizations.delegate,
+      ],
+      localeResolutionCallback:
+          (Locale locale, Iterable<Locale> supportedLocales) {
+        for (Locale supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale.languageCode ||
+              supportedLocale.countryCode == locale.countryCode) {
+            return supportedLocale;
+          }
+        }
+      },
+
       routes: <String, WidgetBuilder>{
-        SharePage.routName: (BuildContext context) => new SharePage(),
-        SettingPage.routName: (BuildContext context) => new SettingPage(),
+        // SharePage.routName: (BuildContext context) => new SharePage(),
+        // SettingPage.routName: (BuildContext context) => new SettingPage(),
         CollectionsPage.routName: (BuildContext context) =>
             new CollectionsPage(),
-       ChangeThemePage.routName: (BuildContext context) =>
+        ChangeThemePage.routName: (BuildContext context) =>
             new ChangeThemePage(),
       },
     );

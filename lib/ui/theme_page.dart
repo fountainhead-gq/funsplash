@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:funsplash/utils/theme_config.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class ChangeThemePage extends StatefulWidget {
   static const String routName = '/Theme';
@@ -7,10 +8,11 @@ class ChangeThemePage extends StatefulWidget {
   State<StatefulWidget> createState() => ChangeThemePageState();
 }
 
-class ChangeThemePageState extends State<ChangeThemePage> {
+class ChangeThemePageState extends State<ChangeThemePage>
+    with TickerProviderStateMixin {
   List<Color> colors = ThemeUtils.supportColors;
 
-  changeColorTheme(Color c) {
+  changeColorTheme(Color c) async {
     AppThemeConfig.eventBus.fire(new ChangeThemeEvent(c));
   }
 
@@ -18,7 +20,9 @@ class ChangeThemePageState extends State<ChangeThemePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('切换主题', style: new TextStyle(color: Colors.white)),
+          title: new Text(
+              FunsplashLocalizations.of(context).trans('change_theme'),
+              style: new TextStyle(color: Colors.white)),
           iconTheme: new IconThemeData(color: Colors.white),
         ),
         body: new Padding(

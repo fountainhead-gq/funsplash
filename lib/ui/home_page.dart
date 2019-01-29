@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_search_bar/flutter_search_bar.dart';
+
 import 'package:funsplash/ui/curated_page.dart';
 import 'package:funsplash/ui/latest_page.dart';
 import 'package:funsplash/ui/popular_page.dart';
 import 'package:funsplash/ui/drawer_page.dart';
-import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:funsplash/ui/search_list.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.title}) : super(key: key);
@@ -14,21 +16,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final String title;
   _HomePageState(this.title);
 
   SearchBar searchBar;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
   TabController controller;
-
-  final _icons = [Icons.fiber_new, Icons.timeline, Icons.whatshot];
   DateTime _lastPressedAt;
 
   @override
   void initState() {
     super.initState();
-    controller = new TabController(length: _icons.length, vsync: this);
+    controller = new TabController(length: 3, vsync: this);
   }
 
   @override
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  TabBar getTabBar() {
+  TabBar getTabBar(tabTitle) {
     return new TabBar(
       indicator: UnderlineTabIndicator(
           borderSide: BorderSide(width: 1.0),
@@ -47,46 +46,22 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       tabs: <Tab>[
         new Tab(
           // set icon to the tab
-          icon: new Icon(_icons[0]),
-          // text: 'Latest',
+          // icon: new Icon(_icons[0]),
+          text: tabTitle[0].toString(),
         ),
         new Tab(
-          icon: new Icon(_icons[1]),
-          // text: 'Trending',
+          // icon: new Icon(_icons[1]),
+          text: tabTitle[1].toString(),
         ),
         new Tab(
-          icon: new Icon(_icons[2]),
-          // text: 'Collections',
+          // icon: new Icon(_icons[2]),
+          text: tabTitle[2].toString(),
         ),
       ],
       // setup the controller
       controller: controller,
     );
   }
-
-  // List<Widget> _getTabBar() {
-  //   var _tabBar = new TabBar(
-  //     indicator: UnderlineTabIndicator(
-  //         borderSide: BorderSide(width: 1.0),
-  //         insets: EdgeInsets.symmetric(horizontal: 16.0)),
-  //     // indicatorSize: TabBarIndicatorSize.label,
-  //     labelColor: Colors.white,
-  //     unselectedLabelColor: Colors.grey[100],
-  //     tabs: [
-  //       new Tab(
-  //         icon: new Icon(_icons[0]),
-  //       ),
-  //       new Tab(
-  //         icon: new Icon(_icons[1]),
-  //       ),
-  //       new Tab(
-  //         icon: new Icon(_icons[2]),
-  //       ),
-  //     ],
-  //     controller: controller,
-  //   );
-  //   return [_tabBar];
-  // }
 
   TabBarView getTabBarView(var tabs) {
     return new TabBarView(
@@ -101,67 +76,24 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    // return new DefaultTabController(
-    //   // key: _scaffoldKey,
-    //   length: _icons.length,
-    //   child: new Scaffold(
-    //     body: new NestedScrollView(
-    //         headerSliverBuilder:
-    //             (BuildContext context, bool innerBoxIsScrolled) {
-    //           return <Widget>[
-    //             new SliverAppBar(
-    //               brightness: Brightness.dark,
-    //               backgroundColor: Colors.black45,
-    //               forceElevated: innerBoxIsScrolled,
-    //               expandedHeight: 50.0,
-    //               automaticallyImplyLeading: true,
-    //               // pinned: true,
-    //               // primary: true,
-    //               title: new Text(title),
-    //               flexibleSpace: const FlexibleSpaceBar(
-    //                 centerTitle: false,
-    //                 background: const Image(
-    //                   colorBlendMode: BlendMode.multiply,
-    //                   color: Colors.black38,
-    //                   image: const AssetImage("images/tabbar.jpg"),
-    //                   fit: BoxFit.cover,
-    //                 ),
-    //               ),
-    //               bottom: getTabBar(),
-    //               actions: <Widget>[
-    //                 new IconButton(icon: Icon(Icons.search),
-    //                 tooltip: 'Search',
-    //                 onPressed: (){},),
-    //                 new Padding(
-    //                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
-    //                 ),
-
-    //               ],
-    //             ),
-    //           ];
-    //         },
-    //         body: WillPopScope(
-    //           child: getTabBarView(<Widget>[
-    //             new LatestPage(),
-    //             new CuratedPage(),
-    //             new PopularPage()
-    //           ]),
-    //           onWillPop: _onWillPop,
-    //         )),
-    //     drawer: NavigationDrawer(),
-    //   ),
-    // );
+    final String photosLatest =
+        FunsplashLocalizations.of(context).trans('photos_latest');
+    final String photoPopular =
+        FunsplashLocalizations.of(context).trans('photos_popular');
+    final String photosCurated =
+        FunsplashLocalizations.of(context).trans('photos_curated');
+    final String searchTip = FunsplashLocalizations.of(context).trans('search');
+    final tabTitle = [photosLatest, photosCurated, photoPopular];
 
     return Scaffold(
         key: _scaffoldKey,
         appBar: new AppBar(
-          // backgroundColor: Colors.black45,
-          bottom: getTabBar(),
+          bottom: getTabBar(tabTitle),
           title: new Text(title),
           actions: <Widget>[
             new IconButton(
               icon: Icon(Icons.search),
-              tooltip: 'Search',
+              tooltip: searchTip,
               onPressed: () {
                 _onSearch();
               },

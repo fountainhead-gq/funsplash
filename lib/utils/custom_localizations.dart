@@ -1,95 +1,54 @@
 import 'dart:async';
-import 'package:flutter/foundation.dart';
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-Map<String, Map<String, String>> _localizedSimpleValues = {};
+const supportedLocales = const ['en', 'zh'];
 
-Map<String, Map<String, Map<String, String>>> _localizedValues = {};
+class FunsplashLocalizations {
+  FunsplashLocalizations(this.locale);
 
-/// set localized simple values.
-void setLocalizedSimpleValues(
-    Map<String, Map<String, String>> localizedValues) {
-  _localizedSimpleValues = localizedValues;
-}
+  final Locale locale;
 
-/// set localized values.
-void setLocalizedValues(
-    Map<String, Map<String, Map<String, String>>> localizedValues) {
-  _localizedValues = localizedValues;
-}
-
-
-/// CustomLocalizations.
-class CustomLocalizations {
-  CustomLocalizations(this.locale);
-
-  Locale locale;
-  static CustomLocalizations instance;
-
-  ///不推荐使用.
-  // static void init(BuildContext context) {
-  //   instance = of(context);
-  // }
-
-  static CustomLocalizations of(BuildContext context) {
-    return Localizations.of<CustomLocalizations>(context, CustomLocalizations);
+  static FunsplashLocalizations of(BuildContext context) {
+    return Localizations.of<FunsplashLocalizations>(
+        context, FunsplashLocalizations);
   }
 
-  /// get string by id,Can be specified languageCode,countryCode.
-  /// 通过id获取字符串,可指定languageCode,countryCode.
-  String getString(String id, {String languageCode, String countryCode}) {
-    String _languageCode = languageCode ?? locale.languageCode;
-    if (_localizedSimpleValues.isNotEmpty) {
-      return _localizedSimpleValues[_languageCode][id];
-    } else {
-      String _countryCode = countryCode ?? locale.countryCode;
-      if (_countryCode == null ||
-          _countryCode.isEmpty ||
-          !_localizedValues[_languageCode].keys.contains(_countryCode)) {
-        _countryCode = _localizedValues[_languageCode].keys.toList()[0];
-      }
-      return _localizedValues[_languageCode][_countryCode][id];
-    }
+  Map<String, Object> sentences;
+
+  Future<bool> load() async {
+    print(this.locale.languageCode);
+    String data = await rootBundle
+        .loadString('assets/localization/${this.locale.languageCode}.json');
+    sentences = json.decode(data);
+    return true;
   }
 
-  /// supported Locales
-  static Iterable<Locale> supportedLocales = _getSupportedLocales();
-
-  static List<Locale> _getSupportedLocales() {
-    List<Locale> list = new List();
-    if (_localizedSimpleValues.isNotEmpty) {
-      _localizedSimpleValues.keys.forEach((value) {
-        list.add(new Locale(value, ''));
-      });
-    } else {
-      _localizedValues.keys.forEach((value) {
-        _localizedValues[value].keys.forEach((vv) {
-          list.add(new Locale(value, vv));
-        });
-      });
-    }
-    return list;
+  String trans(String key) {
+    return sentences[key];
   }
 
-  static const LocalizationsDelegate<CustomLocalizations> delegate =
-      _CustomLocalizationsDelegate();
+  static FunsplashLocalizationsDelegate delegate =
+      const FunsplashLocalizationsDelegate();
 }
 
-class _CustomLocalizationsDelegate
-    extends LocalizationsDelegate<CustomLocalizations> {
-  const _CustomLocalizationsDelegate();
+class FunsplashLocalizationsDelegate
+    extends LocalizationsDelegate<FunsplashLocalizations> {
+  const FunsplashLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) => (_localizedSimpleValues.isNotEmpty
-      ? _localizedSimpleValues.keys.contains(locale.languageCode)
-      : _localizedValues.keys.contains(locale.languageCode));
+  bool isSupported(Locale locale) =>
+      supportedLocales.contains(locale.languageCode);
 
   @override
-  Future<CustomLocalizations> load(Locale locale) {
-    return new SynchronousFuture<CustomLocalizations>(
-        new CustomLocalizations(locale));
+  Future<FunsplashLocalizations> load(Locale locale) async {
+    FunsplashLocalizations localizations = new FunsplashLocalizations(locale);
+    await localizations.load();
+    return localizations;
   }
 
   @override
-  bool shouldReload(_CustomLocalizationsDelegate old) => false;
+  bool shouldReload(FunsplashLocalizationsDelegate old) => false;
 }

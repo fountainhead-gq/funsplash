@@ -1,0 +1,18 @@
+{
+  "app_name": "Funsplash",
+  "home": "主页",
+  "about": "About",
+  "theme": "主题",
+  "photos_latest": "最新",
+  "photos_popular": "流行",
+  "photos_curated": "精选",
+  "photos_random": "随机",
+  "collections": "集合",
+  "reload": "重新加载图片",
+  "change_theme": "切换主题",
+  "search": "搜索",
+  "data": "数据",
+  "info": "信息",
+  "download": "下载",
+  "settings": "设置"
+}

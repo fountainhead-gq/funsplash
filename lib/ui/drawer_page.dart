@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:funsplash/ui/share_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
-import 'package:funsplash/ui/settings_page.dart';
 import 'package:funsplash/ui/theme_page.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class NavigationDrawer extends StatefulWidget {
+  NavigationDrawer({Key key}) : super(key: key);
   @override
   _NavigationDrawerState createState() => _NavigationDrawerState();
 }
@@ -12,52 +12,59 @@ class NavigationDrawer extends StatefulWidget {
 class _NavigationDrawerState extends State<NavigationDrawer> {
   @override
   Widget build(BuildContext context) {
-    return new Container(
-      color: Theme.of(context).primaryColor,
-      child: getDrawer(),
-    );
-  }
+    // final String settingItem =
+    //     FunsplashLocalizations.of(context).trans('settings');
+    final String homeItem = FunsplashLocalizations.of(context).trans('home');
+    final String collectionItem =
+        FunsplashLocalizations.of(context).trans('collections');
+    final String themeItem = FunsplashLocalizations.of(context).trans('theme');
+    final tabItem = [homeItem, collectionItem, themeItem];
 
-  Widget getDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Column(
-              children: <Widget>[
-                FlutterLogo(
-                  size: 48.0,
+    return new Scaffold(
+      body: Container(
+        color: Theme.of(context).copyWith().primaryColor,
+        child: new Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                child: Column(
+                  children: <Widget>[
+                    // FlutterLogo(
+                    //   size: 48.0,
+                    // ),
+                    Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    Text(
+                      "",
+                      style: TextStyle(
+                        fontSize: 14.0,
+                      ),
+                    ),
+                  ],
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
                 ),
-                Text(
-                  "Flutter Example",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-                Text(
-                  "flutterexample@gmail.com",
-                  style: TextStyle(
-                    fontSize: 14.0,
-                  ),
-                ),
-              ],
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-            ),
-            decoration: BoxDecoration(color: Colors.black38),
+                decoration: BoxDecoration(
+                    color: Theme.of(context).copyWith().primaryColor),
+              ),
+              getNavigationItem(Icons.home, tabItem[0], '/'),
+              getNavigationItem(
+                  Icons.collections, tabItem[1], CollectionsPage.routName),
+              Divider(),
+              getNavigationItem(
+                  Icons.color_lens, tabItem[2], ChangeThemePage.routName),
+              // getNavigationItem(Icons.settings, settingItem, SettingPage.routName),
+              // getNavigationItem(Icons.share, "Share", SharePage.routName),
+              // getNavigationItem(Icons.send, "Send", SharePage.routName),
+            ],
           ),
-          getNavigationItem(Icons.home, "Home", '/'),
-          getNavigationItem(
-              Icons.collections, "Collections", CollectionsPage.routName),
-          Divider(),
-          getNavigationItem(Icons.settings, "Settings", SettingPage.routName),
-          getNavigationItem(
-              Icons.color_lens, "Theme", ChangeThemePage.routName),
-          getNavigationItem(Icons.share, "Share", SharePage.routName),
-          getNavigationItem(Icons.send, "Send", SharePage.routName),
-        ],
+        ),
       ),
     );
   }
@@ -76,7 +83,6 @@ class _NavigationDrawerState extends State<NavigationDrawer> {
       ),
       onTap: () {
         setState(() {
-          // _title = title;
           Navigator.pop(context);
           // navigate to the route
           Navigator.of(context).pushNamed(routeName);

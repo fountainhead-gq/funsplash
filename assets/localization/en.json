@@ -1,0 +1,18 @@
+{
+  "app_name": "Funsplash",
+  "home": "Home",
+  "about": "About",
+  "theme": "Theme",
+  "photos_latest": "Latest",
+  "photos_popular": "Popular",
+  "photos_curated": "Curated",
+  "photos_random": "Random",
+  "collections": "Collections",
+  "reload": "Please reload again",
+  "change_theme": "Change Theme",
+  "search": "search",
+  "data": "data",
+  "info": "info",
+  "download": "download",
+  "settings": "Settings"
+}

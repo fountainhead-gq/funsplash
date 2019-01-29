@@ -5,6 +5,7 @@ import 'package:funsplash/api/unplash_api.dart';
 import 'package:funsplash/model/collection.dart';
 import 'package:funsplash/utils/colors.dart';
 import 'package:funsplash/ui/collections_detail.dart';
+import 'package:funsplash/utils/custom_localizations.dart';
 
 class CollectionsPage extends StatefulWidget {
   static const String routName = '/collections';
@@ -17,14 +18,13 @@ class _CollectionsPageState extends State<CollectionsPage>
   final Key _allTabKey = const PageStorageKey('collections_all');
   int currentPageNumber = 1;
 
-
-
-  
   @override
   Widget build(BuildContext context) {
+    final String collectionsTitle =
+        FunsplashLocalizations.of(context).trans('collections');
     return new Scaffold(
       appBar: new AppBar(
-        title: new Text('Collections'),
+        title: new Text(collectionsTitle),
       ),
       body: new Container(
         child: FutureBuilder<List<Collection>>(
@@ -43,7 +43,6 @@ class _CollectionsPageState extends State<CollectionsPage>
           },
         ),
       ),
-      
     );
   }
 }
