@@ -6,6 +6,7 @@ import 'package:funsplash/ui/collection_page.dart';
 import 'package:funsplash/utils/theme_config.dart';
 import 'package:funsplash/utils/custom_localizations.dart';
 import 'package:funsplash/ui/theme_page.dart';
+import 'package:funsplash/ui/about_page.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,7 +45,7 @@ class MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // print(themeColor); 
+    // print(themeColor);
     final String title = "funsplash";
     return MaterialApp(
       title: title,
@@ -71,14 +72,12 @@ class MyAppState extends State<MyApp> {
           }
         }
       },
-
       routes: <String, WidgetBuilder>{
-        // SharePage.routName: (BuildContext context) => new SharePage(),
-        // SettingPage.routName: (BuildContext context) => new SettingPage(),
         CollectionsPage.routName: (BuildContext context) =>
             new CollectionsPage(),
         ChangeThemePage.routName: (BuildContext context) =>
             new ChangeThemePage(),
+        AboutPage.routName: (BuildContext context) => new AboutPage(),
       },
     );
   }

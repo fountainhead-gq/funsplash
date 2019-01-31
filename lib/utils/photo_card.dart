@@ -3,46 +3,65 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker_saver/image_picker_saver.dart';
 import 'package:funsplash/model/photo.dart';
-
+import 'package:funsplash/utils/custom_localizations.dart';
 
 Widget photoDataCard(BuildContext context, Photo photo) {
-  int likes = photo.likes;
-  int downloads = photo.downloads;
-  int views = photo.views;
-  if (likes == null) likes = 0;
-  if (downloads == null) downloads = 0;
-  if (views == null) views = 0;
+  int likes, views, downloads;
+
+  final String downloadsTimes =
+      FunsplashLocalizations.of(context).trans('downloads');
+  final String viewsTimes = FunsplashLocalizations.of(context).trans('views');
+  final String likesTimes = FunsplashLocalizations.of(context).trans('likes');
+
+  if (photo.likes == null) {
+    likes = 0;
+  } else {
+    likes = photo.likes;
+  }
+  if (photo.downloads == null) {
+    downloads = 0;
+  } else {
+    downloads = photo.downloads;
+  }
+  if (photo.views == null) {
+    views = 0;
+  } else {
+    views = photo.views;
+  }
 
   var card = SizedBox(
-    height: 220.0,
+    height: 200.0,
     child: Card(
-      color: Colors.black,
+      color: Theme.of(context).copyWith().primaryColor,
       child: Column(
         children: [
           ListTile(
             leading: Icon(
               Icons.cloud_download,
-              color: Colors.amber[200],
+              color: Colors.white54,
             ),
-            title: Text(downloads.toString(),
-                style: TextStyle(fontWeight: FontWeight.w500)),
+            title: Text(downloads.toString() + downloadsTimes,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, color: Colors.white70)),
           ),
           Divider(),
           ListTile(
             leading: Icon(
               Icons.favorite,
-              color: Colors.amber[200],
+              color: Colors.white54,
             ),
-            title: Text(likes.toString(),
-                style: TextStyle(fontWeight: FontWeight.w500)),
+            title: Text(likes.toString() + likesTimes,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, color: Colors.white70)),
           ),
           ListTile(
             leading: Icon(
               Icons.remove_red_eye,
-              color: Colors.amber[200],
+              color: Colors.white54,
             ),
-            title: Text(views.toString(),
-                style: TextStyle(fontWeight: FontWeight.w500)),
+            title: Text(views.toString() + viewsTimes,
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, color: Colors.white70)),
           ),
         ],
       ),
@@ -54,11 +73,16 @@ Widget photoDataCard(BuildContext context, Photo photo) {
 Widget createDownloadCard(BuildContext context, var photo) {
   String fullPhotoUrl = photo.urls.full;
   String regularPhotoUrl = photo.urls.regular;
-
+  final String hdImage = FunsplashLocalizations.of(context).trans('hd_image');
+  final String hdImageDesc =
+      FunsplashLocalizations.of(context).trans('hd_image_qd');
+  final String s4kImage = FunsplashLocalizations.of(context).trans('4k_image');
+  final String s4kImageDesc =
+      FunsplashLocalizations.of(context).trans('4k_image_qd');
   var card = SizedBox(
-    height: 180.0,
+    height: 200.0,
     child: Card(
-      color: Colors.black,
+      color: Theme.of(context).copyWith().primaryColor,
       child: Column(
         children: [
           ListTile(
@@ -67,12 +91,15 @@ Widget createDownloadCard(BuildContext context, var photo) {
             },
             leading: Icon(
               Icons.hd,
-              color: Colors.amber[200],
+              color: Colors.white54,
             ),
-            title: Text('Full HD Image'.toString(),
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
-            subtitle: Text('1080p image | Quick to download.',
-                style: TextStyle(fontSize: 16)),
+            title: Text(hdImage,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.white70)),
+            subtitle: Text(hdImageDesc,
+                style: TextStyle(fontSize: 16, color: Colors.white70)),
           ),
           Divider(),
           ListTile(
@@ -81,16 +108,19 @@ Widget createDownloadCard(BuildContext context, var photo) {
             },
             leading: Icon(
               Icons.four_k,
-              color: Colors.amber[200],
+              color: Colors.white54,
             ),
-            title: Text('4K Image'.toString(),
-                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18)),
+            title: Text(s4kImage,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20,
+                    color: Colors.white70)),
             subtitle: Text(
               photo.width.toString() +
-                  'X' +
+                  ' x ' +
                   photo.height.toString() +
-                  ' px image | Take a while to download.',
-              style: TextStyle(fontSize: 16),
+                  s4kImageDesc,
+              style: TextStyle(fontSize: 16, color: Colors.white70),
             ),
           ),
         ],
@@ -108,75 +138,3 @@ void _downloadNetworkImage(String url) async {
   var filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes);
   var savedFile = File.fromUri(Uri.file(filePath));
 }
-
-
-
-// Widget exifDataCard(BuildContext context, Photo photo) {
-//   String make = photo.exif.make;
-//   String model = photo.exif.model;
-//   String aperture = photo.exif.aperture;
-//   String exposureTime = photo.exif.exposureTime;
-//   String focalLength = photo.exif.focalLength;
-//   int iso = photo.exif.iso;
-
-//   var card = SizedBox(
-//     height: 350.0,
-//     child: Card(
-//       color: Colors.black,
-//       child: Column(
-//         children: [
-//           ListTile(
-//             leading: Icon(
-//               Icons.photo,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(make.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//           Divider(),
-//           ListTile(
-//             leading: Icon(
-//               Icons.photo_camera,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(model.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//           ListTile(
-//             leading: Icon(
-//               Icons.timelapse,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(exposureTime.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//           ListTile(
-//             leading: Icon(
-//               Icons.camera,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(aperture.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//           ListTile(
-//             leading: Icon(
-//               Icons.center_focus_strong,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(focalLength.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//           ListTile(
-//             leading: Icon(
-//               Icons.iso,
-//               color: Colors.amber[200],
-//             ),
-//             title: Text(iso.toString(),
-//                 style: TextStyle(fontWeight: FontWeight.w500)),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-//   return card;
-// }

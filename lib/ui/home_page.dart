@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'package:funsplash/ui/curated_page.dart';
 import 'package:funsplash/ui/latest_page.dart';
@@ -43,23 +44,34 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           insets: EdgeInsets.symmetric(horizontal: 16.0)),
       indicatorColor: Colors.orangeAccent,
       indicatorSize: TabBarIndicatorSize.tab,
-      tabs: <Tab>[
-        new Tab(
-          // set icon to the tab
-          // icon: new Icon(_icons[0]),
-          text: tabTitle[0].toString(),
+
+      tabs: <Widget>[
+        new Container(
+          height: 35,
+          child: new Tab(
+            // set icon to the tab
+            // icon: new Icon(_icons[0]),
+            text: tabTitle[0].toString(),
+          ),
         ),
-        new Tab(
-          // icon: new Icon(_icons[1]),
-          text: tabTitle[1].toString(),
+        new Container(
+          height: 35,
+          child: new Tab(
+            // icon: new Icon(_icons[1]),
+            text: tabTitle[1].toString(),
+          ),
         ),
-        new Tab(
-          // icon: new Icon(_icons[2]),
-          text: tabTitle[2].toString(),
+        new Container(
+          height: 35,
+          child: new Tab(
+            // icon: new Icon(_icons[2]),
+            text: tabTitle[2].toString(),
+          ),
         ),
       ],
       // setup the controller
       controller: controller,
+      labelColor: Colors.white70,
     );
   }
 
@@ -83,36 +95,51 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     final String photosCurated =
         FunsplashLocalizations.of(context).trans('photos_curated');
     final String searchTip = FunsplashLocalizations.of(context).trans('search');
+
     final tabTitle = [photosLatest, photosCurated, photoPopular];
 
     return Scaffold(
-        key: _scaffoldKey,
-        appBar: new AppBar(
-          bottom: getTabBar(tabTitle),
-          title: new Text(title),
-          actions: <Widget>[
-            new IconButton(
-              icon: Icon(Icons.search),
-              tooltip: searchTip,
-              onPressed: () {
-                _onSearch();
-              },
-            )
-          ],
+      key: _scaffoldKey,
+      appBar: new AppBar(
+        bottom: new PreferredSize(
+          preferredSize: new Size(30, 30),
+          child: new Container(
+            child: getTabBar(tabTitle),
+          ),
         ),
-        drawer: NavigationDrawer(),
-        body: WillPopScope(
-          child: getTabBarView(
-              <Widget>[new LatestPage(), new CuratedPage(), new PopularPage()]),
-          onWillPop: _onWillPop,
-        ));
+        title: new Text(title),
+        actions: <Widget>[
+          new IconButton(
+            icon: Icon(Icons.search),
+            tooltip: searchTip,
+            onPressed: () {
+              _onSearch();
+            },
+          )
+        ],
+      ),
+      drawer: NavigationDrawer(),
+      body: WillPopScope(
+        child: getTabBarView(
+            <Widget>[new LatestPage(), new CuratedPage(), new PopularPage()]),
+        onWillPop: _onWillPop,
+      ),
+    );
   }
 
   Future<bool> _onWillPop() async {
+    final String tapExit = FunsplashLocalizations.of(context).trans('tap_exit');
     if (_lastPressedAt == null ||
         DateTime.now().difference(_lastPressedAt) > Duration(seconds: 1)) {
-      //两次点击间隔超过1秒则重新计时
       _lastPressedAt = DateTime.now();
+      Fluttertoast.showToast(
+          msg: tapExit,
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIos: 1,
+          // backgroundColor: Theme.of(context).primaryColor,
+          textColor: Theme.of(context).primaryColor,
+          fontSize: 18.0);
       return false;
     }
     return true;

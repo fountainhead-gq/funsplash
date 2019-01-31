@@ -24,9 +24,10 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     final String dataTitle = FunsplashLocalizations.of(context).trans('data');
-    final String infoTitle = FunsplashLocalizations.of(context).trans('info');
+    // final String infoTitle = FunsplashLocalizations.of(context).trans('info');
     final String downloadTitle =
         FunsplashLocalizations.of(context).trans('download');
+    final primaryColor = Theme.of(context).copyWith().primaryColor;
     childButtons.add(UnicornButton(
         hasLabel: true,
         labelText: dataTitle,
@@ -35,33 +36,9 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
         currentButton: FloatingActionButton(
           heroTag: dataTitle,
-          backgroundColor: Colors.amber[200],
+          backgroundColor: primaryColor,
           mini: true,
           child: Icon(Icons.timeline),
-          onPressed: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return Container(
-                    child: new Center(
-                      child: photoDataCard(context, photo),
-                    ),
-                  );
-                });
-          },
-        )));
-
-    childButtons.add(UnicornButton(
-        hasLabel: true,
-        labelText: infoTitle,
-        labelHasShadow: false,
-        labelColor: Colors.white70,
-        labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
-        currentButton: FloatingActionButton(
-          heroTag: infoTitle,
-          backgroundColor: Colors.amber[200],
-          mini: true,
-          child: Icon(Icons.info),
           onPressed: () {
             showDialog(
                 context: context,
@@ -83,7 +60,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
         labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
         currentButton: FloatingActionButton(
           heroTag: downloadTitle,
-          backgroundColor: Colors.amber[200],
+          backgroundColor: primaryColor,
           mini: true,
           child: Icon(Icons.cloud_download),
           onPressed: () {
@@ -101,6 +78,30 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 });
           },
         )));
+
+    // childButtons.add(UnicornButton(
+    //     hasLabel: true,
+    //     labelText: infoTitle,
+    //     labelHasShadow: false,
+    //     labelColor: Colors.white70,
+    //     labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
+    //     currentButton: FloatingActionButton(
+    //       heroTag: infoTitle,
+    //       backgroundColor: primaryColor,
+    //       mini: true,
+    //       child: Icon(Icons.info),
+    //       onPressed: () {
+    //         showDialog(
+    //             context: context,
+    //             builder: (context) {
+    //               return Container(
+    //                 child: new Center(
+    //                   child: photoDataCard(context, photo),
+    //                 ),
+    //               );
+    //             });
+    //       },
+    //     )));
 
     return new Scaffold(
       key: scaffoldKey,
@@ -128,27 +129,47 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
           SliverSafeArea(
             top: false,
             sliver: SliverList(
-              delegate:
-                  SliverChildListDelegate(_createListContent(context, photo)),
+              delegate: SliverChildListDelegate(
+                  _createListContent(context, photo, primaryColor)),
             ),
           ),
         ],
       ),
       floatingActionButton: UnicornDialer(
           backgroundColor: Color.fromRGBO(255, 255, 255, 0.25),
-          parentButtonBackground: Colors.amber[300],
+          parentButtonBackground: primaryColor,
           orientation: UnicornOrientation.VERTICAL,
           parentButton: Icon(Icons.keyboard_arrow_up),
           childButtons: childButtons),
     );
   }
 
-  List<Widget> _createListContent(BuildContext context, Photo photo) {
+  List<Widget> _createListContent(
+      BuildContext context, Photo photo, primaryColor) {
     final profileImage = photo.user.profileImage;
     final photoUser = "Photo by ${photo.user.name}";
+    String views, likes, description;
+    if (photo.views == null) {
+      views = '0';
+    } else {
+      views = photo.views.toString();
+    }
+
+    if (photo.likes == null) {
+      likes = '0';
+    } else {
+      likes = photo.likes.toString();
+    }
+
+    if (photo.description == null) {
+      description = '---';
+    } else {
+      description = photo.description.toString();
+    }
+
     final List<Widget> contents = [];
     contents.add(Container(
-      decoration: BoxDecoration(color: Colors.black),
+      decoration: BoxDecoration(color: primaryColor),
       // padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0),
       child: ListTile(
         leading: CircleAvatar(
@@ -156,7 +177,106 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
           radius: 20.0,
         ),
         contentPadding: EdgeInsets.only(left: 5.0),
-        title: Text(photoUser),
+        title: Text(
+          photoUser,
+          style: new TextStyle(color: Colors.white54),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.straighten,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          photo.width.toString() + " x " + photo.height.toString(),
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.date_range,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          photo.createdAt.year.toString() +
+              '-' +
+              photo.createdAt.month.toString() +
+              '-' +
+              photo.createdAt.day.toString(),
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.person_pin,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          photo.user.name,
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.color_lens,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          photo.color.toString(),
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.description,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          description,
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.remove_red_eye,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          views,
+          style: new TextStyle(color: Colors.white70),
+        ),
+      ),
+    ));
+    contents.add(Container(
+      decoration: BoxDecoration(color: primaryColor),
+      child: new ListTile(
+        leading: new Icon(
+          Icons.favorite,
+          color: Colors.white70,
+        ),
+        title: new Text(
+          likes,
+          style: new TextStyle(color: Colors.white70),
+        ),
       ),
     ));
     return contents;
