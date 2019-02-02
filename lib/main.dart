@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:splashscreen/splashscreen.dart';
 
 import 'package:funsplash/ui/home_page.dart';
 import 'package:funsplash/ui/collection_page.dart';
@@ -10,14 +11,51 @@ import 'package:funsplash/ui/about_page.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatefulWidget {
+// class MyApp extends StatefulWidget {
+//   @override
+//   State<StatefulWidget> createState() {
+//     return MyAppState();
+//   }
+// }
+
+class MyApp extends StatelessWidget {
   @override
-  State<StatefulWidget> createState() {
-    return MyAppState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: new SplashScreenPage(),
+    );
   }
 }
 
-class MyAppState extends State<MyApp> {
+class SplashScreenPage extends StatefulWidget {
+  @override
+  _SplashScreenPageState createState() => _SplashScreenPageState();
+}
+
+class _SplashScreenPageState extends State<SplashScreenPage> {
+  @override
+  Widget build(BuildContext context) {
+    return new SplashScreen(
+        seconds: 3,
+        navigateAfterSeconds: new HomeScreen(),
+        title: new Text(
+          'Welcome In Funsplash',
+          style: new TextStyle(color: Colors.white70),
+        ),
+        image: new Image.asset('assets/images/logo.png'),
+        backgroundColor: Colors.black87,
+        styleTextUnderTheLoader: new TextStyle(),
+        photoSize: 100.0,
+        loaderColor: Colors.amber[800]);
+  }
+}
+
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   Color themeColor = ThemeUtils.currentColorTheme;
 
   @override
