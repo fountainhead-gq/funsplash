@@ -23,6 +23,7 @@
   "email": "Email",
   "email_desc": "Report a bug or request a feature",
   "more": "More",
+  "wallpaper": "wallpaper",
   "enjoy_app": "Enjoying the App",
   "downloads": " downloads",
   "views": " views",
@@ -30,6 +31,13 @@
   "hd_image": "Full HD Image",
   "hd_image_qd": "1080p image | Quick to download.",
   "4k_image": "4K Image",
-  "4k_image_qd": "image | Take a while to download.",
-  "tap_exit":"Tap again to exit"
+  "4k_image_qd": "px image | Take a while to download.",
+  "tap_exit": "Tap again to exit",
+  "home_screen": "Home Screen",
+  "lock_screen": "Lock Screen",
+  "both_screen": "Home And Lock Screen",
+  "home_screen_desc": "Set wallpaper as home screen",
+  "lock_screen_desc": "Set wallpaper as home screen",
+  "both_screen_desc": "Set wallpaper as home and lock screen",
+  "screen_result": "Waiting to set wallpaper"
 }

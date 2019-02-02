@@ -1,6 +1,42 @@
-# funsplash
+# Funsplash
 
-A new Flutter project.
+A simple and open source app written in flutter.  This app comes with a lot of features and a more are coming soon. 
+
+## What's this app
+funsplah provides you an easy way to view and get free high-definition pictures, all pictures are from unsplash.
+
+## Available for download
+
+```
+<div>
+<a href='https://play.google.com/store/apps/details?id=com.qingzhi.funsplash'><img alt='Get it on Google Play' src='assets/screenshots/google_play.png' height='48px'/></a>
+</div>
+```
+## Screenshots
+
+![](assets/screenshots/funsplash_latest.jpg) | ![](assets/screenshots/funsplash_curated.jpg)  |  ![](assets/screenshots/funsplash_popular.jpg)
+| ------------------------- | ------------------------- | -----------
+![](assets/screenshots/funsplash_download.jpg) | ![](assets/screenshots/funsplash_collection.jpg)  |  ![](assets/screenshots/funsplash_search.jpg)
+
+
+## Installion
+
+In the command terminal, run the following commands:
+```
+$ git@github.com:fountainhead-gq/funsplash.git
+$ cd funsplash
+$ flutter run
+```
+
+## TODO
+
+- [ ] Clear Cache
+- [ ] Change Language
+- [ ] Sign in & register
+- [ ] Improve Design
+- [ ] Animations
+- [ ] ...
+
 
 ## Getting Started
 

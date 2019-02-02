@@ -23,6 +23,7 @@
   "email": "邮件",
   "email_desc": "发送故障报告",
   "more": "更多",
+  "wallpaper": "壁纸",
   "enjoy_app": "喜欢支持",
   "downloads": " 下载",
   "views": " 浏览",
@@ -30,6 +31,13 @@
   "hd_image": "高清照片",
   "hd_image_qd": "1080p 图片 | 下载图片速度较快",
   "4k_image": "超清照片",
-  "4k_image_qd": "图片 | 下载图片较耗时",
-  "tap_exit":"再次敲击退出"
+  "4k_image_qd": "px 图片 | 下载图片较耗时",
+  "tap_exit": "再次敲击退出",
+  "home_screen": "桌面壁纸",
+  "lock_screen": "锁屏壁纸",
+  "both_screen": "桌面&锁屏壁纸",
+  "home_screen_desc": "图片设为桌面壁纸",
+  "lock_screen_desc": "图片设为锁屏壁纸",
+  "both_screen_desc": "图片设为桌面&锁屏壁纸",
+  "screen_result": "正在设置壁纸…"
 }

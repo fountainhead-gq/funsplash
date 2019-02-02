@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:unicorndial/unicorndial.dart';
 import 'package:transparent_image/transparent_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:wallpaper/wallpaper.dart';
+
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/utils/photo_card.dart';
 import 'package:funsplash/utils/colors.dart';
@@ -19,14 +22,36 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
   final Photo photo;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var childButtons = List<UnicornButton>();
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-
+    // String result;
     final String dataTitle = FunsplashLocalizations.of(context).trans('data');
-    // final String infoTitle = FunsplashLocalizations.of(context).trans('info');
+    
     final String downloadTitle =
         FunsplashLocalizations.of(context).trans('download');
+    final String wallpaper =
+        FunsplashLocalizations.of(context).trans('wallpaper');
+
+    final String homeScreen =
+        FunsplashLocalizations.of(context).trans('home_screen');
+    final String lockScreen =
+        FunsplashLocalizations.of(context).trans('lock_screen');
+    final String bothScreen =
+        FunsplashLocalizations.of(context).trans('both_screen');
+
+    final String homeScreenDesc =
+        FunsplashLocalizations.of(context).trans('home_screen_desc');
+    final String lockScreenDesc =
+        FunsplashLocalizations.of(context).trans('lock_screen_desc');
+    final String bothScreenDesc =
+        FunsplashLocalizations.of(context).trans('both_screen_desc');
+
     final primaryColor = Theme.of(context).copyWith().primaryColor;
     childButtons.add(UnicornButton(
         hasLabel: true,
@@ -79,29 +104,137 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
           },
         )));
 
-    // childButtons.add(UnicornButton(
-    //     hasLabel: true,
-    //     labelText: infoTitle,
-    //     labelHasShadow: false,
-    //     labelColor: Colors.white70,
-    //     labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
-    //     currentButton: FloatingActionButton(
-    //       heroTag: infoTitle,
-    //       backgroundColor: primaryColor,
-    //       mini: true,
-    //       child: Icon(Icons.info),
-    //       onPressed: () {
-    //         showDialog(
-    //             context: context,
-    //             builder: (context) {
-    //               return Container(
-    //                 child: new Center(
-    //                   child: photoDataCard(context, photo),
-    //                 ),
-    //               );
-    //             });
-    //       },
-    //     )));
+    childButtons.add(UnicornButton(
+      hasLabel: true,
+      labelText: wallpaper,
+      labelHasShadow: false,
+      labelColor: Colors.white70,
+      labelBackgroundColor: Color.fromARGB(20, 255, 255, 255),
+      currentButton: FloatingActionButton(
+        heroTag: wallpaper,
+        backgroundColor: primaryColor,
+        mini: true,
+        child: Icon(Icons.wallpaper),
+        onPressed: () {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return Container(
+                  child: new Center(
+                    child: new SizedBox(
+                      height: 230.0,
+                      child: Card(
+                        color: Theme.of(context).copyWith().primaryColor,
+                        child: Column(
+                          children: [
+                            ListTile(
+                              onTap: () async {
+                                String res;
+                                res =
+                                    await Wallpaper.HomeScreen(photo.urls.full);
+                                if (!mounted) return;
+                                setState(() {
+                                  // result = res.toString();
+                                  print(res.toString());
+                                  Fluttertoast.showToast(
+                                      msg: res.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      textColor: Theme.of(context).primaryColor,
+                                      fontSize: 16.0);
+                                });
+                              },
+                              leading: Icon(
+                                Icons.home,
+                                color: Colors.white54,
+                              ),
+                              title: Text(homeScreen,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.white70)),
+                              subtitle: Text(
+                                homeScreenDesc,
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white54),
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () async {
+                                String res;
+                                res =
+                                    await Wallpaper.LockScreen(photo.urls.full);
+                                if (!mounted) return;
+                                setState(() {
+                                  // result = res.toString();
+                                  print(res.toString());
+                                  Fluttertoast.showToast(
+                                      msg: res.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      textColor: Theme.of(context).primaryColor,
+                                      fontSize: 16.0);
+                                });
+                              },
+                              leading: Icon(
+                                Icons.lock_outline,
+                                color: Colors.white54,
+                              ),
+                              title: Text(lockScreen,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.white70)),
+                              subtitle: Text(
+                                lockScreenDesc,
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white54),
+                              ),
+                            ),
+                            ListTile(
+                              onTap: () async {
+                                String res;
+                                res = await Wallpaper.Both(photo.urls.full);
+                                if (!mounted) return;
+                                setState(() {
+                                  // result = res.toString();
+                                  print(res.toString());
+                                  Fluttertoast.showToast(
+                                      msg: res.toString(),
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIos: 1,
+                                      textColor: Theme.of(context).primaryColor,
+                                      fontSize: 16.0);
+                                });
+                              },
+                              leading: Icon(
+                                Icons.smartphone,
+                                color: Colors.white54,
+                              ),
+                              title: Text(bothScreen,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20,
+                                      color: Colors.white70)),
+                              subtitle: Text(
+                                bothScreenDesc,
+                                style: TextStyle(
+                                    fontSize: 14, color: Colors.white54),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              });
+        },
+      ),
+    ));
 
     return new Scaffold(
       key: scaffoldKey,

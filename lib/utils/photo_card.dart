@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker_saver/image_picker_saver.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/utils/custom_localizations.dart';
 
@@ -44,7 +46,7 @@ Widget photoDataCard(BuildContext context, Photo photo) {
                 style: TextStyle(
                     fontWeight: FontWeight.w500, color: Colors.white70)),
           ),
-          Divider(),
+          // Divider(),
           ListTile(
             leading: Icon(
               Icons.favorite,
@@ -71,6 +73,7 @@ Widget photoDataCard(BuildContext context, Photo photo) {
 }
 
 Widget createDownloadCard(BuildContext context, var photo) {
+  Color primaryColor = Theme.of(context).copyWith().primaryColor;
   String fullPhotoUrl = photo.urls.full;
   String regularPhotoUrl = photo.urls.regular;
   final String hdImage = FunsplashLocalizations.of(context).trans('hd_image');
@@ -80,14 +83,14 @@ Widget createDownloadCard(BuildContext context, var photo) {
   final String s4kImageDesc =
       FunsplashLocalizations.of(context).trans('4k_image_qd');
   var card = SizedBox(
-    height: 200.0,
+    height: 165.0,
     child: Card(
-      color: Theme.of(context).copyWith().primaryColor,
+      color: primaryColor,
       child: Column(
         children: [
           ListTile(
             onTap: () {
-              _downloadNetworkImage(regularPhotoUrl);
+              _downloadNetworkImage(regularPhotoUrl, primaryColor);
             },
             leading: Icon(
               Icons.hd,
@@ -99,12 +102,11 @@ Widget createDownloadCard(BuildContext context, var photo) {
                     fontSize: 20,
                     color: Colors.white70)),
             subtitle: Text(hdImageDesc,
-                style: TextStyle(fontSize: 16, color: Colors.white70)),
+                style: TextStyle(fontSize: 14, color: Colors.white70)),
           ),
-          Divider(),
           ListTile(
             onTap: () {
-              _downloadNetworkImage(fullPhotoUrl);
+              _downloadNetworkImage(fullPhotoUrl, primaryColor);
             },
             leading: Icon(
               Icons.four_k,
@@ -120,7 +122,7 @@ Widget createDownloadCard(BuildContext context, var photo) {
                   ' x ' +
                   photo.height.toString() +
                   s4kImageDesc,
-              style: TextStyle(fontSize: 16, color: Colors.white70),
+              style: TextStyle(fontSize: 14, color: Colors.white70),
             ),
           ),
         ],
@@ -130,11 +132,22 @@ Widget createDownloadCard(BuildContext context, var photo) {
   return card;
 }
 
-void _downloadNetworkImage(String url) async {
+void _downloadNetworkImage(String url, Color primaryColor) async {
   var response = await http.get(url);
-
   debugPrint(response.statusCode.toString());
 
   var filePath = await ImagePickerSaver.saveFile(fileData: response.bodyBytes);
   var savedFile = File.fromUri(Uri.file(filePath));
+
+  if (savedFile.toString().contains("File")) {
+    String savedFilePath = "Picture Saved to: " + filePath.toString();
+    print(savedFilePath);
+    Fluttertoast.showToast(
+        msg: savedFilePath,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 1,
+        textColor: primaryColor,
+        fontSize: 16.0);
+  }
 }

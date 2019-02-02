@@ -59,15 +59,51 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
                         child: new Center(
                           child: Column(
                             children: <Widget>[
-                              Icon(Icons.cloud_off),
-                              Text(
-                                FunsplashLocalizations.of(context)
-                                    .trans('reload'),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: new TextStyle(
-                                    color: Colors.white, fontSize: 16),
-                              )
+                              Container(
+                                height: 100,
+                              ),
+                              ListTile(
+                                leading: Icon(
+                                  Icons.cloud_off,
+                                  size: 60,
+                                  color:
+                                      Theme.of(context).copyWith().primaryColor,
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    PhotosCard(
+                                      key: key,
+                                      photos: snapshot.data,
+                                      pageNumber: currentPageNumber,
+                                    );
+                                  });
+                                },
+                              ),
+                              Container(
+                                height: 10,
+                              ),
+                              ListTile(
+                                title: Text(
+                                  FunsplashLocalizations.of(context)
+                                      .trans('reload'),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: new TextStyle(
+                                      color: Theme.of(context)
+                                          .copyWith()
+                                          .primaryColor,
+                                      fontSize: 18),
+                                ),
+                                onTap: () {
+                                  setState(() {
+                                    PhotosCard(
+                                      key: key,
+                                      photos: snapshot.data,
+                                      pageNumber: currentPageNumber,
+                                    );
+                                  });
+                                },
+                              ),
                             ],
                           ),
                         ),
@@ -84,7 +120,10 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
               } catch (e) {
                 return new Text(
                   "Error Fetching Data",
-                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).copyWith().primaryColor),
                 );
               }
             }),

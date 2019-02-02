@@ -1,4 +1,5 @@
-package com.example.funsplash;
+// package com.example.funsplash;
+package com.qingzhi.funsplash;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
