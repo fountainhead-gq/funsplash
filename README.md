@@ -11,10 +11,8 @@ funsplah provides you an easy way to view and get free high-definition pictures,
 
 
 
+|  [![](assets/screenshots/google_play.png )](https://play.google.com/store/apps/details?id=com.qingzhi.funsplash)    |  
 
-|  [![](assets/screenshots/google_play.png )](https://play.google.com/store/apps/details?id=com.qingzhi.funsplash)    |      |
-| ---- | ---- |
-|      |      |
 
 
 
