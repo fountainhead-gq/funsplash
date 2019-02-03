@@ -32,7 +32,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
     final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     // String result;
     final String dataTitle = FunsplashLocalizations.of(context).trans('data');
-    
+
     final String downloadTitle =
         FunsplashLocalizations.of(context).trans('download');
     final String wallpaper =
@@ -52,6 +52,21 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
     final String bothScreenDesc =
         FunsplashLocalizations.of(context).trans('both_screen_desc');
 
+    final String downloadsTimes =
+        FunsplashLocalizations.of(context).trans('downloads');
+    final String viewsTimes = FunsplashLocalizations.of(context).trans('views');
+    final String likesTimes = FunsplashLocalizations.of(context).trans('likes');
+    List viewAndLikes = [downloadsTimes, viewsTimes, likesTimes];
+
+    final String hdImage = FunsplashLocalizations.of(context).trans('hd_image');
+    final String hdImageDesc =
+        FunsplashLocalizations.of(context).trans('hd_image_qd');
+    final String s4kImage =
+        FunsplashLocalizations.of(context).trans('4k_image');
+    final String s4kImageDesc =
+        FunsplashLocalizations.of(context).trans('4k_image_qd');
+    List hd4kImage = [hdImage, hdImageDesc, s4kImage, s4kImageDesc];
+
     final primaryColor = Theme.of(context).copyWith().primaryColor;
     childButtons.add(UnicornButton(
         hasLabel: true,
@@ -70,7 +85,8 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                 builder: (context) {
                   return Container(
                     child: new Center(
-                      child: photoDataCard(context, photo),
+                      child: photoDataCard(
+                          context, photo, viewAndLikes, primaryColor),
                     ),
                   );
                 });
@@ -95,9 +111,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                   return Container(
                     child: new Center(
                       child: createDownloadCard(
-                        context,
-                        photo,
-                      ),
+                          context, photo, hd4kImage, primaryColor),
                     ),
                   );
                 });
@@ -124,7 +138,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                     child: new SizedBox(
                       height: 230.0,
                       child: Card(
-                        color: Theme.of(context).copyWith().primaryColor,
+                        color: primaryColor,
                         child: Column(
                           children: [
                             ListTile(
@@ -141,7 +155,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIos: 1,
-                                      textColor: Theme.of(context).primaryColor,
+                                      textColor: primaryColor,
                                       fontSize: 16.0);
                                 });
                               },
@@ -174,7 +188,7 @@ class _PhotoDetailPageState extends State<PhotoDetailPage> {
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIos: 1,
-                                      textColor: Theme.of(context).primaryColor,
+                                      textColor: primaryColor,
                                       fontSize: 16.0);
                                 });
                               },

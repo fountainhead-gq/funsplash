@@ -58,16 +58,20 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
                       return new Container(
                         child: new Center(
                           child: Column(
+                            mainAxisAlignment:MainAxisAlignment.center,
                             children: <Widget>[
                               Container(
                                 height: 100,
                               ),
                               ListTile(
-                                leading: Icon(
+                          
+                                leading: new Center(
+                                  child: Icon(
                                   Icons.cloud_off,
                                   size: 60,
                                   color:
                                       Theme.of(context).copyWith().primaryColor,
+                                ),
                                 ),
                                 onTap: () {
                                   setState(() {

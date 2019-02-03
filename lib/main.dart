@@ -40,7 +40,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
         navigateAfterSeconds: new HomeScreen(),
         title: new Text(
           'Welcome In Funsplash',
-          style: new TextStyle(color: Colors.white70),
+          style: new TextStyle(color: Colors.white70, fontSize: 18.0),
         ),
         image: new Image.asset('assets/images/logo.png'),
         backgroundColor: Colors.black87,

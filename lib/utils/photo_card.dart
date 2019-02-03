@@ -7,13 +7,13 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:funsplash/model/photo.dart';
 import 'package:funsplash/utils/custom_localizations.dart';
 
-Widget photoDataCard(BuildContext context, Photo photo) {
+Widget photoDataCard(
+    BuildContext context, Photo photo, List viewAndLikes, Color primaryColor) {
   int likes, views, downloads;
 
-  final String downloadsTimes =
-      FunsplashLocalizations.of(context).trans('downloads');
-  final String viewsTimes = FunsplashLocalizations.of(context).trans('views');
-  final String likesTimes = FunsplashLocalizations.of(context).trans('likes');
+  final String downloadsTimes = viewAndLikes[0];
+  final String viewsTimes = viewAndLikes[1];
+  final String likesTimes = viewAndLikes[2];
 
   if (photo.likes == null) {
     likes = 0;
@@ -34,7 +34,7 @@ Widget photoDataCard(BuildContext context, Photo photo) {
   var card = SizedBox(
     height: 200.0,
     child: Card(
-      color: Theme.of(context).copyWith().primaryColor,
+      color: primaryColor,
       child: Column(
         children: [
           ListTile(
@@ -72,16 +72,16 @@ Widget photoDataCard(BuildContext context, Photo photo) {
   return card;
 }
 
-Widget createDownloadCard(BuildContext context, var photo) {
-  Color primaryColor = Theme.of(context).copyWith().primaryColor;
+Widget createDownloadCard(
+    BuildContext context, var photo, List hd4kImage, Color primaryColor) {
   String fullPhotoUrl = photo.urls.full;
   String regularPhotoUrl = photo.urls.regular;
-  final String hdImage = FunsplashLocalizations.of(context).trans('hd_image');
-  final String hdImageDesc =
-      FunsplashLocalizations.of(context).trans('hd_image_qd');
-  final String s4kImage = FunsplashLocalizations.of(context).trans('4k_image');
-  final String s4kImageDesc =
-      FunsplashLocalizations.of(context).trans('4k_image_qd');
+
+  final String hdImage = hd4kImage[0];
+  final String hdImageDesc = hd4kImage[1];
+  final String s4kImage = hd4kImage[2];
+  final String s4kImageDesc = hd4kImage[3];
+
   var card = SizedBox(
     height: 165.0,
     child: Card(

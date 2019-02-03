@@ -38,6 +38,5 @@
   "both_screen": "Home And Lock Screen",
   "home_screen_desc": "Set wallpaper as home screen",
   "lock_screen_desc": "Set wallpaper as home screen",
-  "both_screen_desc": "Set wallpaper as home and lock screen",
-  "screen_result": "Waiting to set wallpaper"
+  "both_screen_desc": "Set wallpaper as home and lock screen"
 }
