@@ -87,7 +87,8 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
                                 height: 10,
                               ),
                               ListTile(
-                                title: Text(
+                                title: new Center(
+                                  child: Text(
                                   FunsplashLocalizations.of(context)
                                       .trans('reload'),
                                   maxLines: 1,
@@ -97,6 +98,7 @@ class _GetNetworkPhotoState extends State<GetNetworkPhoto> {
                                           .copyWith()
                                           .primaryColor,
                                       fontSize: 18),
+                                ),
                                 ),
                                 onTap: () {
                                   setState(() {
